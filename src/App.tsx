@@ -1,6 +1,13 @@
 import React from 'react';
 import { createGlobalStyle } from 'styled-components';
-import { Col, Container, Row } from './styles/layouts/grids';
+import {
+	Col,
+	Container,
+	LG_BREAKPOINT,
+	MD_BREAKPOINT,
+	numToPX,
+	Row,
+} from './styles/layouts/grids';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -53,6 +60,59 @@ const GlobalStyle = createGlobalStyle`
   table {
     border-collapse: collapse;
     border-spacing: 0;
+  }
+
+  /* Custom Global Style */
+  .sm-only {
+    @media screen and (min-width: ${numToPX(MD_BREAKPOINT)}) {
+    display: none !important;
+    }
+  }
+  .md-only {
+    @media screen and (max-width: ${numToPX(MD_BREAKPOINT - 1)}) {
+      display: none !important;
+    }
+
+    @media screen and (min-width: ${numToPX(LG_BREAKPOINT)}) {
+      display: none !important;
+    }
+  }
+
+  .lg-only {
+    @media screen and (max-width: ${numToPX(LG_BREAKPOINT - 1)}) {
+      display: none !important;
+    }
+  }
+
+  .sm-hidden {
+    @media screen and (max-width: ${numToPX(MD_BREAKPOINT - 1)}) {
+      display: none !important;
+    }
+  }
+
+  .md-hidden {
+    @media screen and (min-width: ${numToPX(MD_BREAKPOINT)}) 
+    and (max-width: ${numToPX(LG_BREAKPOINT - 1)}) {
+      display: none !important;
+    }
+  }
+
+  .lg-hidden {
+    @media screen and (min-width: ${numToPX(LG_BREAKPOINT)}) {
+      display: none !important;
+    }
+  }
+
+  .visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
   }
 `;
 
