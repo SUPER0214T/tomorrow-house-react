@@ -1,0 +1,71 @@
+.product-tab {
+	border-bottom: 1px solid $border;
+	height: 40px;
+	background-color: $white;
+	position: sticky;
+	top: $gnb-height-sm + $lnb-height-sm + 2;
+	left: 0;
+	width: 100%;
+	z-index: $product-tab-level;
+
+	&-list {
+		@include flexbox;
+		margin: 0 -15px;
+	}
+
+	&-item {
+		// flex-grow: 1;
+		// flex-shrink: 1;
+		width: calc(100% / 5);
+
+		&.is-active {
+			button {
+				color: $blue;
+				border-bottom: 2px solid $blue;
+			}
+		}
+
+		button {
+			@include text-style(13, $dark);
+			@include flexbox;
+			width: 100%;
+			font-weight: 700;
+			border-bottom: 2px solid transparent;
+			height: 40px;
+
+			strong {
+				@include text-style(12, $secondary);
+				font-weight: 700;
+				margin-left: 4px;
+			}
+		}
+	}
+
+	@include responsive(T) {
+		border-top: 1px solid $border;
+		height: 54px;
+		top: $gnb-height-md + $lnb-height-md + 1;
+		background-color: $background;
+
+		&-list {
+			margin: 0;
+		}
+
+		&-item {
+			button {
+				@include text-style(16);
+				height: 53px; // 태블릿 크기로 바뀌면서 border-top 1px 생기기 때문에 height를 54가 아닌 53픽셀로 준 것
+				transition: color 200ms ease-in-out;
+
+				&:hover {
+					color: $blue;
+				}
+
+				strong {
+					@include text-style(16);
+					margin-left: 8px;
+				}
+			}
+		}
+	}
+}

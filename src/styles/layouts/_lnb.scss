@@ -1,0 +1,63 @@
+.lnb {
+	overflow-x: scroll;
+	border-bottom: 1px solid $border;
+	background-color: $white;
+	text-align: center;
+	position: fixed;
+	top: $gnb-height-sm + 1px; // 1px: gnb의 border-bottom size
+	left: 0;
+	width: 100%;
+	z-index: $lnb-level;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	&-list {
+		@include inline-flexbox(start);
+		white-space: nowrap;
+		margin-left: -8px;
+	}
+
+	&-item {
+		a {
+			@include text-style(13px, $dark);
+			@include flexbox;
+			height: 40px;
+			font-weight: 700;
+			padding: 0 8px;
+			border-bottom: 2px solid transparent;
+
+			.ic-new {
+				color: $red;
+			}
+		}
+
+		&.is-active {
+			a {
+				color: $blue;
+				border-color: $blue;
+			}
+		}
+	}
+
+	@include responsive(T) {
+		text-align: left;
+		top: $gnb-height-md + 1px;
+
+		&-list {
+			margin-left: 0;
+		}
+
+		&-item {
+			a {
+				@include text-style(14);
+				height: 50px;
+
+				&:hover {
+					color: $blue;
+				}
+			}
+		}
+	}
+}

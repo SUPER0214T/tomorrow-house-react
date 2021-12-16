@@ -1,0 +1,12 @@
+@mixin star-rating($size) {
+	@include flexbox(start);
+
+	.ic-star {
+		font-size: $size;
+		color: $border;
+
+		&.is-active {
+			color: $blue;
+		}
+	}
+}

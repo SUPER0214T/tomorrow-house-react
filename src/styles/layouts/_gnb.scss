@@ -1,0 +1,263 @@
+.gnb {
+	position: relative;
+	border-bottom: 1px solid $border;
+	background-color: $white;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: $gnb-level;
+
+	&-icon-button {
+		@include flexbox;
+		width: 32px;
+		height: 32px;
+		font-size: 24px;
+		color: $secondary;
+
+		&.is-menu {
+			color: $blue;
+		}
+
+		&.is-search {
+			margin-right: 4px;
+		}
+	}
+
+	&-wrapper {
+		@include flexbox(between);
+		height: 50px;
+	}
+
+	&-left {
+		.gnb-logo {
+			@include pos-center;
+
+			a {
+				display: block;
+			}
+
+			img {
+				display: block;
+				width: auto;
+				height: 20px;
+			}
+		}
+	}
+
+	&-right {
+		.button-group {
+			@include flexbox(end);
+
+			.gnb-icon-button {
+				&.is-cart {
+					position: relative;
+					$badge-size: 16px;
+
+					.badge {
+						@include flexbox;
+						min-width: 16px;
+						height: 16px;
+						border-radius: $badge-size / 2;
+						color: $white;
+						position: absolute;
+						right: 0;
+						top: 0;
+						background-color: $red;
+						font-size: 10px;
+						letter-spacing: -0.01em;
+						line-height: 16px;
+						font-weight: 700;
+						padding: 0 4px;
+					}
+				}
+			}
+		}
+	}
+
+	@include responsive(T) {
+		&-wrapper {
+			height: 80px;
+		}
+
+		&-left {
+			@include flexbox(start);
+
+			.gnb-logo {
+				position: static;
+				transform: none;
+				margin-right: 32px;
+
+				img {
+					height: 24px;
+				}
+			}
+
+			.gnb-nav {
+				&-list {
+					@include flexbox(start);
+				}
+
+				&-item {
+					&:not(:last-child) {
+						margin-right: 24px;
+					}
+
+					a {
+						@include text-style(18, $primary);
+						font-weight: 700;
+					}
+
+					&.is-active a {
+						color: $blue;
+					}
+
+					&:hover,
+					&:active {
+						a {
+							color: $blue;
+						}
+					}
+				}
+			}
+		}
+
+		&-right {
+			@include flexbox(start);
+
+			.input-group {
+				margin-right: 24px;
+			}
+
+			.button-group {
+				margin-right: 24px;
+
+				.gnb-auth {
+					margin-left: 8px;
+
+					a {
+						@include text-style(14, $primary);
+						font-weight: 700;
+
+						&:hover {
+							color: $blue;
+						}
+
+						&:first-child {
+							margin-right: 12px;
+						}
+					}
+				}
+
+				.gnb-icon-button {
+					@include flexbox;
+					margin-right: 8px;
+					border-radius: 50%;
+					transition: color 200ms ease-in-out,
+						background-color 200ms ease-in-out;
+
+					&:hover,
+					&:active {
+						background-color: $blue;
+						color: $white;
+					}
+				}
+
+				.gnb-avatar-button {
+					border: 3px solid $white;
+					cursor: pointer;
+					transition: border-color 200ms ease-in-out;
+
+					&:hover,
+					&:active {
+						border-color: $blue;
+					}
+				}
+			}
+
+			.my-menu {
+				position: relative;
+
+				&.is-active {
+					.my-menu-content {
+						transform: translate3d(-50%, 0, 0);
+						opacity: 1;
+						visibility: visible;
+					}
+
+					.gnb-avatar-button {
+						border-color: $blue;
+					}
+				}
+
+				&-content {
+					@include pos-center-x;
+					top: calc(100% + 22px);
+					background-color: $white;
+					transform: translate3d(-50%, -10px, 0);
+					opacity: 0;
+					visibility: hidden;
+					transition: visibility 200ms ease-in-out, opacity 200ms ease-in-out,
+						transform 200ms ease-in-out;
+
+					&::before,
+					&::after {
+						@include pos-center-x;
+						display: block;
+						position: absolute;
+						top: -12px * 2;
+						content: '';
+						width: 0;
+						height: 0;
+						border-top: 12px solid transparent;
+						border-right: 10px solid transparent;
+						border-bottom: 12px solid $border;
+						border-left: 10px solid transparent;
+					}
+
+					&::after {
+						top: -12px * 2 + 1px;
+						border-bottom: 12px solid $white;
+					}
+				}
+
+				&-list {
+					padding: 8px;
+					width: 200px;
+					border: 1px solid $border;
+					border-radius: 4px;
+				}
+
+				&-item {
+					&:hover,
+					&:active {
+						background-color: $background;
+					}
+
+					a {
+						display: block;
+						@include text-style(16, $primary);
+						font-weight: 400;
+						padding: 10px 16px 10px 8px;
+					}
+				}
+			}
+
+			.btn-primary {
+				width: 88px;
+
+				.ic-chevron {
+					margin-left: 4px;
+				}
+			}
+		}
+	}
+
+	@include responsive(D) {
+		&-right {
+			.input-group {
+				width: 264px;
+			}
+		}
+	}
+}

@@ -1,0 +1,175 @@
+.sidebar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: $white;
+	width: 240px;
+	height: 100vh;
+	padding: 32px 20px;
+	overflow-y: auto;
+	z-index: $sidebar-level;
+	transform: translate3d(-100%, 0, 0);
+	transition: transform 200ms ease-in-out;
+	overscroll-behavior: contain;
+
+	&.is-active {
+		transform: translate3d(0, 0, 0);
+	}
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	&-header {
+		margin-bottom: 32px;
+	}
+
+	.logo {
+		margin-bottom: 32px;
+
+		a {
+			display: block;
+		}
+
+		img {
+			display: block;
+			height: 20px;
+			width: auto;
+		}
+	}
+
+	&-user {
+		a {
+			@include flexbox(start);
+			padding: 0 12px;
+
+			.avatar-24 {
+				margin-right: 8px;
+				flex-grow: 0;
+				flex-shrink: 0;
+			}
+
+			strong {
+				@include text-style(14, $primary);
+				overflow-x: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+		}
+	}
+
+	.sidebar-nav {
+		.sidebar-category {
+			border-top: 1px solid $border;
+
+			&.is-active {
+				.sidebar-category-header {
+					strong {
+						color: $blue;
+					}
+				}
+			}
+
+			&-header {
+				position: relative;
+
+				button {
+					@include flexbox(start);
+					width: 100%;
+					padding: 0 12px;
+					padding-top: 12px;
+					padding-bottom: 14px;
+
+					i:first-child {
+						font-size: 24px;
+						color: $primary;
+						margin-right: 8px;
+					}
+
+					strong {
+						@include text-style(18, $primary);
+					}
+
+					i:last-child {
+						@include pos-center-y;
+						right: 12px;
+						font-size: 16px;
+						color: $primary;
+						transition: transform 200ms ease-in-out;
+					}
+				}
+			}
+			
+			&-list {
+				max-height: 0;
+				overflow: hidden;
+				transition: max-height 200ms ease-in-out;
+			}
+
+			// sidebar의 list 안의 item크기 계산 -> JS에서도 구현해봐야 함
+			$community-list-item: 3;
+			$store-list-item: 9;
+			$expert-list-item: 3;
+
+			$sidebar-list-item-height: 36px;
+
+			@function returnAllItemHeight($item-count) {
+				@return $item-count * $sidebar-list-item-height;
+			}
+
+			&.is-open {
+				&.is-community {
+					.sidebar-category-list {
+						max-height: returnAllItemHeight($community-list-item)
+					}
+				}
+
+				&.is-store {
+					.sidebar-category-list {
+						max-height: returnAllItemHeight($store-list-item)
+					}
+				}
+
+				&.is-expert {
+					.sidebar-category-list {
+						max-height: returnAllItemHeight($expert-list-item)
+					}
+				}
+
+				.sidebar-category-header .ic-chevron {
+					transform: rotate(-180deg) translateY(50%);
+				}
+			}
+
+			&-item {
+				a {
+					@include text-style(14, $primary);
+					@include flexbox(start);
+					font-weight: 700;
+					height: 36px;
+					padding: 0 12px;
+
+					i {
+						font-size: 16px;
+						color: $red;
+					}
+				}
+			}
+		}
+
+		.sidebar-user-menu {
+			padding-top: 16px;
+			border-top: 1px solid $border;
+
+			.user-menu-item {
+				a {
+					@include flexbox(start);
+					@include text-style(14, $primary);
+					font-weight: 400;
+					height: 36px;
+					padding: 0 12px;
+				}
+			}
+		}
+	}
+}
