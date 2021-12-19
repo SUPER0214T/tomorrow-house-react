@@ -1,8 +1,17 @@
+import { useRecoilState } from 'recoil';
+import { gnbSearchAtom } from '../atoms';
+
 function SearchModal() {
+	const [gnbSearchState, setGnbSearchState] = useRecoilState(gnbSearchAtom);
+
 	return (
 		<>
 			{/* <!-- search-modal --> */}
-			<aside className="search-modal lg-hidden">
+			<aside
+				className={`search-modal lg-hidden ${
+					gnbSearchState ? 'is-active' : null
+				}`}
+			>
 				<div className="container">
 					<div className="row">
 						<div className="col-sm-4">
@@ -17,7 +26,11 @@ function SearchModal() {
 										aria-hidden
 									/>
 								</div>
-								<button className="btn-40 btn-ghost is-close" type="button">
+								<button
+									onClick={() => setGnbSearchState(false)}
+									className="btn-40 btn-ghost is-close"
+									type="button"
+								>
 									취소
 								</button>
 							</header>

@@ -1,9 +1,10 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { gnbMenuAtom } from '../atoms';
+import { gnbMenuAtom, gnbSearchAtom } from '../atoms';
 
 function Header() {
 	const [gnbMenuState, setGnbMenuState] = useRecoilState(gnbMenuAtom);
+	const [gnbSearchState, setGnbSearchState] = useRecoilState(gnbSearchAtom);
 
 	return (
 		<>
@@ -93,6 +94,7 @@ function Header() {
 
 									<div className="button-group">
 										<button
+											onClick={() => setGnbSearchState(true)}
 											className="is-search gnb-icon-button lg-hidden"
 											type="button"
 										>
