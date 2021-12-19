@@ -9,3 +9,8 @@ export const gnbSearchAtom = atom<boolean>({
 	key: 'gnbSearchAtom',
 	default: false,
 });
+
+export const orderFormAtom = atom<boolean>({
+	key: 'orderFormAtom',
+	default: false,
+});

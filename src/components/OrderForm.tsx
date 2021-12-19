@@ -1,4 +1,9 @@
+import { useRecoilState } from 'recoil';
+import { orderFormAtom } from '../atoms';
+
 function OrderForm() {
+	const [orderFormState, setOrderFormState] = useRecoilState(orderFormAtom);
+
 	return (
 		<>
 			{/* <!-- order-form --> */}
@@ -9,13 +14,21 @@ function OrderForm() {
 						18,302
 					</span>
 				</button>
-				<button className="btn-48 btn-primary" type="button">
+				<button
+					onClick={() => {
+						setOrderFormState(true);
+					}}
+					className="btn-48 btn-primary"
+					type="button"
+				>
 					구매하기
 				</button>
 			</div>
 
 			{/* <!-- order-form-modal --> */}
-			<div className="order-form-modal">
+			<div
+				className={`order-form-modal ${orderFormState ? 'is-active' : null}`}
+			>
 				<div className="container">
 					<div className="row">
 						<div className="col-sm-4">
@@ -25,8 +38,12 @@ function OrderForm() {
 								method="post"
 							>
 								<div className="select-group select-group01 is-active">
-									<select className="form-select" required>
-										<option value="" disabled selected>
+									<select
+										className="form-select"
+										defaultValue="default"
+										required
+									>
+										<option value="default" disabled>
 											선택
 										</option>
 										<option value="0">선택사항 1</option>
@@ -39,8 +56,8 @@ function OrderForm() {
 								</div>
 
 								<div className="select-group select-group02">
-									<select className="form-select">
-										<option value="" disabled selected>
+									<select className="form-select" defaultValue="default">
+										<option value="default" disabled>
 											추가상품(선택)
 										</option>
 										<option value="0">선택사항 1</option>
