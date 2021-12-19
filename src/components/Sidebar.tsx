@@ -1,8 +1,14 @@
+import React from 'react';
+import { useRecoilState } from 'recoil';
+import { gnbMenuAtom } from '../atoms';
+
 function Sidebar() {
+	const [gnbMenuState, setGnbMenuState] = useRecoilState(gnbMenuAtom);
+
 	return (
 		<>
 			{/* <!-- sidebar --> */}
-			<aside className="sidebar sm-only">
+			<aside className={`sidebar sm-only ${gnbMenuState ? 'is-active' : null}`}>
 				<header className="sidebar-header">
 					<h1 className="logo">
 						<a href="/">

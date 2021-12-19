@@ -1,6 +1,10 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
+import { gnbMenuAtom } from '../atoms';
 
 function Header() {
+	const [gnbMenuState, setGnbMenuState] = useRecoilState(gnbMenuAtom);
+
 	return (
 		<>
 			{/* <!-- gnb --> */}
@@ -11,7 +15,7 @@ function Header() {
 							<div className="gnb-wrapper">
 								<div className="gnb-left">
 									<h1 className="gnb-logo">
-										<a href="https://superpet21.github.io/tomorrow-house-p/">
+										<a href="/">
 											<img
 												src="./assets/images/Logo.svg"
 												alt="메인페이지로 이동"
@@ -23,24 +27,19 @@ function Header() {
 										<h2 className="visually-hidden">상세 페이지 이동</h2>
 										<ul className="gnb-nav-list">
 											<li className="gnb-nav-item">
-												<a href="https://superpet21.github.io/tomorrow-house-p/">
-													커뮤니티
-												</a>
+												<a href="/">커뮤니티</a>
 											</li>
 											<li className="gnb-nav-item is-active">
-												<a href="https://superpet21.github.io/tomorrow-house-p/">
-													스토어
-												</a>
+												<a href="/">스토어</a>
 											</li>
 											<li className="gnb-nav-item">
-												<a href="https://superpet21.github.io/tomorrow-house-p/">
-													인테리어시공
-												</a>
+												<a href="/">인테리어시공</a>
 											</li>
 										</ul>
 									</nav>
 
 									<button
+										onClick={() => setGnbMenuState(true)}
 										className="is-menu gnb-icon-button sm-only"
 										type="button"
 									>
@@ -68,23 +67,19 @@ function Header() {
 											<div className="search-history-content">
 												<ul className="search-history-list">
 													<li className="search-history-item">
-														<a href="https://superpet21.github.io/tomorrow-house-p/">
-															버그
-														</a>
+														<a href="/">버그</a>
 														<button type="button">
 															<i className="ic-close"></i>
 														</button>
 													</li>
 													<li className="search-history-item">
-														<a href="https://superpet21.github.io/tomorrow-house-p/">
-															튕김버그
-														</a>
+														<a href="/">튕김버그</a>
 														<button type="button">
 															<i className="ic-close"></i>
 														</button>
 													</li>
 													<li className="search-history-item">
-														<a href="https://superpet21.github.io/tomorrow-house-p/">
+														<a href="/">
 															스탠드스탠드스탠드스탠드스탠드스탠드스탠드스탠드스탠드스탠드스탠드
 														</a>
 														<button type="button">
@@ -104,24 +99,15 @@ function Header() {
 											<i className="ic-search"></i>
 										</button>
 
-										<a
-											className="gnb-icon-button sm-hidden"
-											href="https://superpet21.github.io/tomorrow-house-p/"
-										>
+										<a className="gnb-icon-button sm-hidden" href="/">
 											<i className="ic-bookmark"></i>
 										</a>
 
-										<a
-											className="is-bell gnb-icon-button sm-hidden"
-											href="https://superpet21.github.io/tomorrow-house-p/"
-										>
+										<a className="is-bell gnb-icon-button sm-hidden" href="/">
 											<i className="ic-bell"></i>
 										</a>
 
-										<a
-											className="is-cart gnb-icon-button"
-											href="https://superpet21.github.io/tomorrow-house-p/"
-										>
+										<a className="is-cart gnb-icon-button" href="/">
 											<i className="ic-cart"></i>
 											<strong className="badge">5</strong>
 										</a>
@@ -137,24 +123,16 @@ function Header() {
 											<div className="my-menu-content">
 												<ul className="my-menu-list">
 													<li className="my-menu-item">
-														<a href="https://superpet21.github.io/tomorrow-house-p/">
-															마이페이지
-														</a>
+														<a href="/">마이페이지</a>
 													</li>
 													<li className="my-menu-item">
-														<a href="https://superpet21.github.io/tomorrow-house-p/">
-															나의 쇼핑
-														</a>
+														<a href="/">나의 쇼핑</a>
 													</li>
 													<li className="my-menu-item">
-														<a href="https://superpet21.github.io/tomorrow-house-p/">
-															이벤트
-														</a>
+														<a href="/">이벤트</a>
 													</li>
 													<li className="my-menu-item">
-														<a href="https://superpet21.github.io/tomorrow-house-p/">
-															로그아웃
-														</a>
+														<a href="/">로그아웃</a>
 													</li>
 												</ul>
 											</div>
@@ -163,13 +141,13 @@ function Header() {
 
 									{/* <!-- 로그인 하지 않았을 때 -->
                   <!-- <div className="button-group">
-                    <a className="is-cart gnb-icon-button" href="https://superpet21.github.io/tomorrow-house-p/">
+                    <a className="is-cart gnb-icon-button" href="/">
                       <i className="ic-cart"></i>
                     </a>
 
                     <div className="sm-hidden gnb-auth">
-                      <a href="https://superpet21.github.io/tomorrow-house-p/">로그인</a>
-                      <a href="https://superpet21.github.io/tomorrow-house-p/">회원가입</a>
+                      <a href="/">로그인</a>
+                      <a href="/">회원가입</a>
                     </div>
                   </div> --> */}
 
@@ -193,47 +171,31 @@ function Header() {
 						<div className="col-sm-4">
 							<ul className="lnb-list">
 								<li className="lnb-item is-active">
-									<a href="https://superpet21.github.io/tomorrow-house-p/">
-										스토어
-									</a>
+									<a href="/">스토어</a>
 								</li>
 								<li className="lnb-item">
-									<a href="https://superpet21.github.io/tomorrow-house-p/">
-										홈카테고리
-									</a>
+									<a href="/">홈카테고리</a>
 								</li>
 								<li className="lnb-item">
-									<a href="https://superpet21.github.io/tomorrow-house-p/">
-										신혼가구
-									</a>
+									<a href="/">신혼가구</a>
 								</li>
 								<li className="lnb-item">
-									<a href="https://superpet21.github.io/tomorrow-house-p/">
-										베스트
-									</a>
+									<a href="/">베스트</a>
 								</li>
 								<li className="lnb-item">
-									<a href="https://superpet21.github.io/tomorrow-house-p/">
-										오늘의딜
-									</a>
+									<a href="/">오늘의딜</a>
 								</li>
 								<li className="lnb-item">
-									<a href="https://superpet21.github.io/tomorrow-house-p/">
-										연휴특가
-									</a>
+									<a href="/">연휴특가</a>
 								</li>
 								<li className="lnb-item">
-									<a href="https://superpet21.github.io/tomorrow-house-p/">
-										월동준비
-									</a>
+									<a href="/">월동준비</a>
 								</li>
 								<li className="lnb-item">
-									<a href="https://superpet21.github.io/tomorrow-house-p/">
-										리퍼마켓
-									</a>
+									<a href="/">리퍼마켓</a>
 								</li>
 								<li className="lnb-item">
-									<a href="https://superpet21.github.io/tomorrow-house-p/">
+									<a href="/">
 										기획전<i className="ic-new"></i>
 									</a>
 								</li>

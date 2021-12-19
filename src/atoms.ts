@@ -1,11 +1,11 @@
 import { atom } from 'recoil';
 
-export const gnbMenuState = atom<boolean>({
-	key: 'gnbMenuState',
+export const gnbMenuAtom = atom<boolean>({
+	key: 'gnbMenuAtom',
 	default: false,
 });
 
-export const gnbSearchState = atom<boolean>({
-	key: 'gnbSearchState',
+export const gnbSearchAtom = atom<boolean>({
+	key: 'gnbSearchAtom',
 	default: false,
 });
