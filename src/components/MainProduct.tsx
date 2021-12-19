@@ -1,5 +1,9 @@
 import { useRecoilState } from 'recoil';
-import { productSpecAtom } from '../atoms';
+import {
+	isDeliveryCollapseAtom,
+	isInquiryCollapseAtom,
+	productSpecAtom,
+} from '../atoms';
 import MobileUserGallery from './MobileUserGallery';
 import ProductSlider from './ProductSlider';
 import TabletUserGallery from './TabletUserGallery';
@@ -7,6 +11,14 @@ import TabletUserGallery from './TabletUserGallery';
 function MainProduct() {
 	const [productSpecState, setProductSpecState] =
 		useRecoilState(productSpecAtom);
+
+	const [isInquiryCollapse, setisInquiryCollapse] = useRecoilState(
+		isInquiryCollapseAtom
+	);
+
+	const [isDeliveryCollapse, setIsDeliveryCollapse] = useRecoilState(
+		isDeliveryCollapseAtom
+	);
 
 	return (
 		<>
@@ -709,7 +721,14 @@ function MainProduct() {
 							></div>
 
 							{/* <!-- product-inquiry --> */}
-							<header className="product-section-header product-inquiry-collapse sm-only">
+							<header
+								onClick={() => {
+									setisInquiryCollapse(true);
+								}}
+								className={`product-section-header product-inquiry-collapse sm-only ${
+									isInquiryCollapse ? 'visually-hidden' : null
+								}`}
+							>
 								<h1 className="title">문의</h1>
 								<strong className="badge" aria-label="문의 96개">
 									96
@@ -718,7 +737,11 @@ function MainProduct() {
 									<i className="ic-chevron"></i>
 								</button>
 							</header>
-							<div className="product-section product-inquiry is-collapse">
+							<div
+								className={`product-section product-inquiry ${
+									isInquiryCollapse ? null : 'is-collapse'
+								} `}
+							>
 								<header className="product-section-header">
 									<h1 className="title">문의</h1>
 									<strong className="badge" aria-label="문의 96개">
@@ -913,13 +936,24 @@ function MainProduct() {
 							></div>
 
 							{/* <!-- product-deliver --> */}
-							<header className="product-section-header product-deliver-collapse sm-only">
+							<header
+								onClick={() => {
+									setIsDeliveryCollapse(true);
+								}}
+								className={`product-section-header product-deliver-collapse sm-only ${
+									isDeliveryCollapse ? 'visually-hidden' : null
+								}`}
+							>
 								<h1 className="title">배송/교환/환불</h1>
 								<button className="icon-button" type="button">
 									<i className="ic-chevron"></i>
 								</button>
 							</header>
-							<div className="product-section product-delivery is-collapse">
+							<div
+								className={`product-section product-delivery ${
+									isDeliveryCollapse ? null : 'is-collapse'
+								} `}
+							>
 								<header className="product-section-header">
 									<h1 className="title">배송</h1>
 								</header>

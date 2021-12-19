@@ -19,3 +19,13 @@ export const productSpecAtom = atom<boolean>({
 	key: 'productSpecAtom',
 	default: false,
 });
+
+export const isInquiryCollapseAtom = atom<boolean>({
+	key: 'isInquiryCollapseAtom',
+	default: false,
+});
+
+export const isDeliveryCollapseAtom = atom<boolean>({
+	key: 'isDeliveryCollapseAtom',
+	default: false,
+});
