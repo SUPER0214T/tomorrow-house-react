@@ -1,8 +1,13 @@
+import { useRecoilState } from 'recoil';
+import { productSpecAtom } from '../atoms';
 import MobileUserGallery from './MobileUserGallery';
 import ProductSlider from './ProductSlider';
 import TabletUserGallery from './TabletUserGallery';
 
 function MainProduct() {
+	const [productSpecState, setProductSpecState] =
+		useRecoilState(productSpecAtom);
+
 	return (
 		<>
 			{/* <!-- main-product --> */}
@@ -120,8 +125,12 @@ function MainProduct() {
 									method="post"
 								>
 									<div className="select-group select-group01 is-active">
-										<select className="form-select" required>
-											<option value="" disabled selected>
+										<select
+											className="form-select"
+											defaultValue="default"
+											required
+										>
+											<option value="default" disabled>
 												선택
 											</option>
 											<option value="0">선택사항 1</option>
@@ -134,8 +143,8 @@ function MainProduct() {
 									</div>
 
 									<div className="select-group select-group02">
-										<select className="form-select">
-											<option value="" disabled selected>
+										<select className="form-select" defaultValue="default">
+											<option value="default" disabled>
 												추가상품(선택)
 											</option>
 											<option value="0">선택사항 1</option>
@@ -222,14 +231,24 @@ function MainProduct() {
 							<TabletUserGallery />
 
 							{/* <!-- product-spec --> */}
-							<div className="product-section product-spec sm-only">
+							<div
+								className={`product-section product-spec sm-only ${
+									productSpecState ? 'is-open' : null
+								}`}
+							>
 								<div className="product-spec-content">
 									<header className="product-section-header sm-hidden">
 										<h1 className="title">상품정보</h1>
 									</header>
 
 									<div className="button-wrapper sm-only">
-										<button className="btn-55 btn-primary" type="button">
+										<button
+											onClick={() => {
+												setProductSpecState(true);
+											}}
+											className="btn-55 btn-primary"
+											type="button"
+										>
 											펼치기
 										</button>
 									</div>
@@ -1101,8 +1120,12 @@ function MainProduct() {
 								>
 									<div className="floating-order-form-header">
 										<div className="select-group select-group01 is-active">
-											<select className="form-select" required>
-												<option value="" disabled selected>
+											<select
+												className="form-select"
+												defaultValue="default"
+												required
+											>
+												<option value="default" disabled>
 													선택
 												</option>
 												<option value="0">선택사항 1</option>
@@ -1115,8 +1138,8 @@ function MainProduct() {
 										</div>
 
 										<div className="select-group select-group02">
-											<select className="form-select">
-												<option value="" disabled selected>
+											<select className="form-select" defaultValue="default">
+												<option value="default" disabled>
 													추가상품(선택)
 												</option>
 												<option value="0">선택사항 1</option>

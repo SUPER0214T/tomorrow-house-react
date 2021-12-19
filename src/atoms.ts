@@ -14,3 +14,8 @@ export const orderFormAtom = atom<boolean>({
 	key: 'orderFormAtom',
 	default: false,
 });
+
+export const productSpecAtom = atom<boolean>({
+	key: 'productSpecAtom',
+	default: false,
+});
