@@ -1,10 +1,18 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { gnbMenuAtom, gnbSearchAtom } from '../atoms';
+import {
+	gnbMenuAtom,
+	gnbMyMenuAtom,
+	gnbSearchAtom,
+	searchHistoryAtom,
+} from '../atoms';
 
 function Header() {
 	const [gnbMenuState, setGnbMenuState] = useRecoilState(gnbMenuAtom);
 	const [gnbSearchState, setGnbSearchState] = useRecoilState(gnbSearchAtom);
+	const [gnbMyMenuState, setGnbMyMenuState] = useRecoilState(gnbMyMenuAtom);
+	const [isSearchHistory, setIsSearchHistory] =
+		useRecoilState(searchHistoryAtom);
 
 	return (
 		<>
@@ -49,7 +57,15 @@ function Header() {
 								</div>
 
 								<div className="gnb-right">
-									<div className="input-group lg-only">
+									<div
+										onFocus={() => {
+											setIsSearchHistory(true);
+										}}
+										onBlur={() => {
+											setIsSearchHistory(false);
+										}}
+										className="input-group lg-only"
+									>
 										<i className="ic-search"></i>
 										<input
 											className="form-input"
@@ -58,7 +74,11 @@ function Header() {
 											aria-hidden
 										/>
 
-										<section className="search-history">
+										<section
+											className={`search-history ${
+												isSearchHistory ? 'is-active' : ''
+											}`}
+										>
 											<h1 className="search-history-header">
 												<span>최근 검색어</span>
 												<button type="button">전체 삭제</button>
@@ -114,7 +134,14 @@ function Header() {
 											<strong className="badge">5</strong>
 										</a>
 
-										<div className="my-menu sm-hidden">
+										<div
+											onClick={() => {
+												setGnbMyMenuState((prev) => !prev);
+											}}
+											className={`my-menu sm-hidden ${
+												gnbMyMenuState ? 'is-active' : ''
+											}`}
+										>
 											<div className="gnb-avatar-button avatar-32 sm-hidden">
 												<img
 													src="./assets/images/img-review-01.jpg"

@@ -10,6 +10,16 @@ export const gnbSearchAtom = atom<boolean>({
 	default: false,
 });
 
+export const gnbMyMenuAtom = atom<boolean>({
+	key: 'gnbMyMenuAtom',
+	default: false,
+});
+
+export const searchHistoryAtom = atom<boolean>({
+	key: 'searchHistoryAtom',
+	default: false,
+});
+
 export const orderFormAtom = atom<boolean>({
 	key: 'orderFormAtom',
 	default: false,
