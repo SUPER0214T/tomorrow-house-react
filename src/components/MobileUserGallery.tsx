@@ -75,7 +75,7 @@ function MobileUserGallery() {
 							<div className="thumbnail">
 								<ol className="thumbnail-list">
 									{imgs.map((el, index) => (
-										<li className="thumbnail-item">
+										<li className="thumbnail-item" key={index}>
 											<button type="button">
 												<img src={el} alt={`리뷰 이미지0${index + 1}`} />
 											</button>

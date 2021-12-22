@@ -12,7 +12,7 @@ function ExamplePage() {
 							<div className="gnb-wrapper">
 								<div className="gnb-left">
 									<h1 className="gnb-logo">
-										<a href="https://superpet21.github.io/tomorrow-house-p/">
+										<a href="/">
 											<img
 												src="./assets/images/Logo.svg"
 												alt="메인페이지로 이동"
@@ -24,19 +24,13 @@ function ExamplePage() {
 										<h2 className="visually-hidden">상세 페이지 이동</h2>
 										<ul className="gnb-nav-list">
 											<li className="gnb-nav-item">
-												<a href="https://superpet21.github.io/tomorrow-house-p/">
-													커뮤니티
-												</a>
+												<a href="/">커뮤니티</a>
 											</li>
 											<li className="gnb-nav-item is-active">
-												<a href="https://superpet21.github.io/tomorrow-house-p/">
-													스토어
-												</a>
+												<a href="/">스토어</a>
 											</li>
 											<li className="gnb-nav-item">
-												<a href="https://superpet21.github.io/tomorrow-house-p/">
-													인테리어시공
-												</a>
+												<a href="/">인테리어시공</a>
 											</li>
 										</ul>
 									</nav>
@@ -69,23 +63,19 @@ function ExamplePage() {
 											<div className="search-history-content">
 												<ul className="search-history-list">
 													<li className="search-history-item">
-														<a href="https://superpet21.github.io/tomorrow-house-p/">
-															버그
-														</a>
+														<a href="/">버그</a>
 														<button type="button">
 															<i className="ic-close"></i>
 														</button>
 													</li>
 													<li className="search-history-item">
-														<a href="https://superpet21.github.io/tomorrow-house-p/">
-															튕김버그
-														</a>
+														<a href="/">튕김버그</a>
 														<button type="button">
 															<i className="ic-close"></i>
 														</button>
 													</li>
 													<li className="search-history-item">
-														<a href="https://superpet21.github.io/tomorrow-house-p/">
+														<a href="/">
 															스탠드스탠드스탠드스탠드스탠드스탠드스탠드스탠드스탠드스탠드스탠드
 														</a>
 														<button type="button">
@@ -105,24 +95,15 @@ function ExamplePage() {
 											<i className="ic-search"></i>
 										</button>
 
-										<a
-											className="gnb-icon-button sm-hidden"
-											href="https://superpet21.github.io/tomorrow-house-p/"
-										>
+										<a className="gnb-icon-button sm-hidden" href="/">
 											<i className="ic-bookmark"></i>
 										</a>
 
-										<a
-											className="is-bell gnb-icon-button sm-hidden"
-											href="https://superpet21.github.io/tomorrow-house-p/"
-										>
+										<a className="is-bell gnb-icon-button sm-hidden" href="/">
 											<i className="ic-bell"></i>
 										</a>
 
-										<a
-											className="is-cart gnb-icon-button"
-											href="https://superpet21.github.io/tomorrow-house-p/"
-										>
+										<a className="is-cart gnb-icon-button" href="/">
 											<i className="ic-cart"></i>
 											<strong className="badge">5</strong>
 										</a>
@@ -138,24 +119,16 @@ function ExamplePage() {
 											<div className="my-menu-content">
 												<ul className="my-menu-list">
 													<li className="my-menu-item">
-														<a href="https://superpet21.github.io/tomorrow-house-p/">
-															마이페이지
-														</a>
+														<a href="/">마이페이지</a>
 													</li>
 													<li className="my-menu-item">
-														<a href="https://superpet21.github.io/tomorrow-house-p/">
-															나의 쇼핑
-														</a>
+														<a href="/">나의 쇼핑</a>
 													</li>
 													<li className="my-menu-item">
-														<a href="https://superpet21.github.io/tomorrow-house-p/">
-															이벤트
-														</a>
+														<a href="/">이벤트</a>
 													</li>
 													<li className="my-menu-item">
-														<a href="https://superpet21.github.io/tomorrow-house-p/">
-															로그아웃
-														</a>
+														<a href="/">로그아웃</a>
 													</li>
 												</ul>
 											</div>
@@ -164,13 +137,13 @@ function ExamplePage() {
 
 									{/* <!-- 로그인 하지 않았을 때 -->
                   <!-- <div className="button-group">
-                    <a className="is-cart gnb-icon-button" href="https://superpet21.github.io/tomorrow-house-p/">
+                    <a className="is-cart gnb-icon-button" href="/">
                       <i className="ic-cart"></i>
                     </a>
 
                     <div className="sm-hidden gnb-auth">
-                      <a href="https://superpet21.github.io/tomorrow-house-p/">로그인</a>
-                      <a href="https://superpet21.github.io/tomorrow-house-p/">회원가입</a>
+                      <a href="/">로그인</a>
+                      <a href="/">회원가입</a>
                     </div>
                   </div> --> */}
 
@@ -194,47 +167,31 @@ function ExamplePage() {
 						<div className="col-sm-4">
 							<ul className="lnb-list">
 								<li className="lnb-item is-active">
-									<a href="https://superpet21.github.io/tomorrow-house-p/">
-										스토어
-									</a>
+									<a href="/">스토어</a>
 								</li>
 								<li className="lnb-item">
-									<a href="https://superpet21.github.io/tomorrow-house-p/">
-										홈카테고리
-									</a>
+									<a href="/">홈카테고리</a>
 								</li>
 								<li className="lnb-item">
-									<a href="https://superpet21.github.io/tomorrow-house-p/">
-										신혼가구
-									</a>
+									<a href="/">신혼가구</a>
 								</li>
 								<li className="lnb-item">
-									<a href="https://superpet21.github.io/tomorrow-house-p/">
-										베스트
-									</a>
+									<a href="/">베스트</a>
 								</li>
 								<li className="lnb-item">
-									<a href="https://superpet21.github.io/tomorrow-house-p/">
-										오늘의딜
-									</a>
+									<a href="/">오늘의딜</a>
 								</li>
 								<li className="lnb-item">
-									<a href="https://superpet21.github.io/tomorrow-house-p/">
-										연휴특가
-									</a>
+									<a href="/">연휴특가</a>
 								</li>
 								<li className="lnb-item">
-									<a href="https://superpet21.github.io/tomorrow-house-p/">
-										월동준비
-									</a>
+									<a href="/">월동준비</a>
 								</li>
 								<li className="lnb-item">
-									<a href="https://superpet21.github.io/tomorrow-house-p/">
-										리퍼마켓
-									</a>
+									<a href="/">리퍼마켓</a>
 								</li>
 								<li className="lnb-item">
-									<a href="https://superpet21.github.io/tomorrow-house-p/">
+									<a href="/">
 										기획전<i className="ic-new"></i>
 									</a>
 								</li>
@@ -248,13 +205,13 @@ function ExamplePage() {
 			<aside className="sidebar sm-only">
 				<header className="sidebar-header">
 					<h1 className="logo">
-						<a href="https://superpet21.github.io/tomorrow-house-p/">
+						<a href="/">
 							<img src="./assets/images/Logo.svg" alt="" />
 						</a>
 					</h1>
 
 					<div className="sidebar-user">
-						<a href="https://superpet21.github.io/tomorrow-house-p/">
+						<a href="/">
 							<div className="avatar-24">
 								<img src="./assets/images/img-user-01.jpg" alt="유저 이미지" />
 							</div>
@@ -274,17 +231,13 @@ function ExamplePage() {
 						</header>
 						<ul className="sidebar-category-list">
 							<li className="sidebar-category-item">
-								<a href="https://superpet21.github.io/tomorrow-house-p/">홈</a>
+								<a href="/">홈</a>
 							</li>
 							<li className="sidebar-category-item">
-								<a href="https://superpet21.github.io/tomorrow-house-p/">
-									스토어홈
-								</a>
+								<a href="/">스토어홈</a>
 							</li>
 							<li className="sidebar-category-item">
-								<a href="https://superpet21.github.io/tomorrow-house-p/">
-									카테고리
-								</a>
+								<a href="/">카테고리</a>
 							</li>
 						</ul>
 					</div>
@@ -299,47 +252,31 @@ function ExamplePage() {
 						</header>
 						<ul className="sidebar-category-list">
 							<li className="sidebar-category-item">
-								<a href="https://superpet21.github.io/tomorrow-house-p/">
-									스토어홈
-								</a>
+								<a href="/">스토어홈</a>
 							</li>
 							<li className="sidebar-category-item">
-								<a href="https://superpet21.github.io/tomorrow-house-p/">
-									카테고리
-								</a>
+								<a href="/">카테고리</a>
 							</li>
 							<li className="sidebar-category-item">
-								<a href="https://superpet21.github.io/tomorrow-house-p/">
-									신혼가구
-								</a>
+								<a href="/">신혼가구</a>
 							</li>
 							<li className="sidebar-category-item">
-								<a href="https://superpet21.github.io/tomorrow-house-p/">
-									베스트
-								</a>
+								<a href="/">베스트</a>
 							</li>
 							<li className="sidebar-category-item">
-								<a href="https://superpet21.github.io/tomorrow-house-p/">
-									오늘의딜
-								</a>
+								<a href="/">오늘의딜</a>
 							</li>
 							<li className="sidebar-category-item">
-								<a href="https://superpet21.github.io/tomorrow-house-p/">
-									연휴특가
-								</a>
+								<a href="/">연휴특가</a>
 							</li>
 							<li className="sidebar-category-item">
-								<a href="https://superpet21.github.io/tomorrow-house-p/">
-									월동준비
-								</a>
+								<a href="/">월동준비</a>
 							</li>
 							<li className="sidebar-category-item">
-								<a href="https://superpet21.github.io/tomorrow-house-p/">
-									리퍼마켓
-								</a>
+								<a href="/">리퍼마켓</a>
 							</li>
 							<li className="sidebar-category-item">
-								<a href="https://superpet21.github.io/tomorrow-house-p/">
+								<a href="/">
 									기획전<i className="ic-new"></i>
 								</a>
 							</li>
@@ -356,17 +293,13 @@ function ExamplePage() {
 						</header>
 						<ul className="sidebar-category-list">
 							<li className="sidebar-category-item">
-								<a href="https://superpet21.github.io/tomorrow-house-p/">홈</a>
+								<a href="/">홈</a>
 							</li>
 							<li className="sidebar-category-item">
-								<a href="https://superpet21.github.io/tomorrow-house-p/">
-									스토어홈
-								</a>
+								<a href="/">스토어홈</a>
 							</li>
 							<li className="sidebar-category-item">
-								<a href="https://superpet21.github.io/tomorrow-house-p/">
-									카테고리
-								</a>
+								<a href="/">카테고리</a>
 							</li>
 						</ul>
 					</div>
@@ -374,29 +307,19 @@ function ExamplePage() {
 					<div className="sidebar-user-menu">
 						<ul className="user-menu-list">
 							<li className="user-menu-item">
-								<a href="https://superpet21.github.io/tomorrow-house-p/">
-									마이페이지
-								</a>
+								<a href="/">마이페이지</a>
 							</li>
 							<li className="user-menu-item">
-								<a href="https://superpet21.github.io/tomorrow-house-p/">
-									나의 쇼핑
-								</a>
+								<a href="/">나의 쇼핑</a>
 							</li>
 							<li className="user-menu-item">
-								<a href="https://superpet21.github.io/tomorrow-house-p/">
-									스크랩북
-								</a>
+								<a href="/">스크랩북</a>
 							</li>
 							<li className="user-menu-item">
-								<a href="https://superpet21.github.io/tomorrow-house-p/">
-									알림
-								</a>
+								<a href="/">알림</a>
 							</li>
 							<li className="user-menu-item">
-								<a href="https://superpet21.github.io/tomorrow-house-p/">
-									이벤트
-								</a>
+								<a href="/">이벤트</a>
 							</li>
 						</ul>
 					</div>
@@ -413,27 +336,19 @@ function ExamplePage() {
 								<div className="breadcrumb">
 									<ol className="breadcrumb-list">
 										<li className="breadcrumb-item">
-											<a href="https://superpet21.github.io/tomorrow-house-p/">
-												가전
-											</a>
+											<a href="/">가전</a>
 											<i className="ic-chevron" aria-hidden></i>
 										</li>
 										<li className="breadcrumb-item">
-											<a href="https://superpet21.github.io/tomorrow-house-p/">
-												계절가전
-											</a>
+											<a href="/">계절가전</a>
 											<i className="ic-chevron" aria-hidden></i>
 										</li>
 										<li className="breadcrumb-item">
-											<a href="https://superpet21.github.io/tomorrow-house-p/">
-												전기히터/온풍기
-											</a>
+											<a href="/">전기히터/온풍기</a>
 											<i className="ic-chevron" aria-hidden></i>
 										</li>
 										<li className="breadcrumb-item">
-											<a href="https://superpet21.github.io/tomorrow-house-p/">
-												전기히터
-											</a>
+											<a href="/">전기히터</a>
 										</li>
 									</ol>
 								</div>
@@ -515,10 +430,7 @@ function ExamplePage() {
 							{/* <!-- product-info --> */}
 							<div className="col-sm-4 col-md-6 col-lg-5">
 								<div className="product-info">
-									<a
-										href="https://superpet21.github.io/tomorrow-house-p/"
-										className="info-brand"
-									>
+									<a href="/" className="info-brand">
 										보아르
 									</a>
 									<h1 className="info-title">
@@ -597,8 +509,12 @@ function ExamplePage() {
 									method="post"
 								>
 									<div className="select-group select-group01 is-active">
-										<select className="form-select" required>
-											<option value="" disabled selected>
+										<select
+											className="form-select"
+											defaultValue="default"
+											required
+										>
+											<option value="default" disabled>
 												선택
 											</option>
 											<option value="0">선택사항 1</option>
@@ -611,8 +527,9 @@ function ExamplePage() {
 									</div>
 
 									<div className="select-group select-group02">
-										<select className="form-select">
-											<option value="" disabled selected>
+										<select defaultValue="default" className="form-select">
+											{' '}
+											<option value="default" disabled>
 												추가상품(선택)
 											</option>
 											<option value="0">선택사항 1</option>
@@ -656,10 +573,7 @@ function ExamplePage() {
 										<strong className="badge" aria-label="461개">
 											461
 										</strong>
-										<a
-											className="icon-button"
-											href="https://superpet21.github.io/tomorrow-house-p/"
-										>
+										<a className="icon-button" href="/">
 											<i className="ic-chevron"></i>
 										</a>
 									</header>
@@ -677,7 +591,7 @@ function ExamplePage() {
 																/>
 															</div>
 															<div className="slider-item-user">
-																<a href="https://superpet21.github.io/tomorrow-house-p/">
+																<a href="/">
 																	<div className="avatar-32">
 																		<img
 																			src="./assets/images/img-user-01.jpg"
@@ -701,7 +615,7 @@ function ExamplePage() {
 																/>
 															</div>
 															<div className="slider-item-user">
-																<a href="https://superpet21.github.io/tomorrow-house-p/">
+																<a href="/">
 																	<div className="avatar-32">
 																		<img
 																			src="./assets/images/img-user-01.jpg"
@@ -725,7 +639,7 @@ function ExamplePage() {
 																/>
 															</div>
 															<div className="slider-item-user">
-																<a href="https://superpet21.github.io/tomorrow-house-p/">
+																<a href="/">
 																	<div className="avatar-32">
 																		<img
 																			src="./assets/images/img-user-01.jpg"
@@ -749,7 +663,7 @@ function ExamplePage() {
 																/>
 															</div>
 															<div className="slider-item-user">
-																<a href="https://superpet21.github.io/tomorrow-house-p/">
+																<a href="/">
 																	<div className="avatar-32">
 																		<img
 																			src="./assets/images/img-user-01.jpg"
@@ -773,7 +687,7 @@ function ExamplePage() {
 																/>
 															</div>
 															<div className="slider-item-user">
-																<a href="https://superpet21.github.io/tomorrow-house-p/">
+																<a href="/">
 																	<div className="avatar-32">
 																		<img
 																			src="./assets/images/img-user-01.jpg"
@@ -898,10 +812,7 @@ function ExamplePage() {
 									<strong className="badge" aria-label="461개">
 										461
 									</strong>
-									<a
-										className="icon-button"
-										href="https://superpet21.github.io/tomorrow-house-p/"
-									>
+									<a className="icon-button" href="/">
 										<i className="ic-chevron"></i>
 									</a>
 								</header>
@@ -919,7 +830,7 @@ function ExamplePage() {
 															/>
 														</div>
 														<div className="slider-item-user">
-															<a href="https://superpet21.github.io/tomorrow-house-p/">
+															<a href="/">
 																<div className="avatar-32">
 																	<img
 																		src="./assets/images/img-user-01.jpg"
@@ -941,7 +852,7 @@ function ExamplePage() {
 															/>
 														</div>
 														<div className="slider-item-user">
-															<a href="https://superpet21.github.io/tomorrow-house-p/">
+															<a href="/">
 																<div className="avatar-32">
 																	<img
 																		src="./assets/images/img-user-01.jpg"
@@ -963,7 +874,7 @@ function ExamplePage() {
 															/>
 														</div>
 														<div className="slider-item-user">
-															<a href="https://superpet21.github.io/tomorrow-house-p/">
+															<a href="/">
 																<div className="avatar-32">
 																	<img
 																		src="./assets/images/img-user-01.jpg"
@@ -985,7 +896,7 @@ function ExamplePage() {
 															/>
 														</div>
 														<div className="slider-item-user">
-															<a href="https://superpet21.github.io/tomorrow-house-p/">
+															<a href="/">
 																<div className="avatar-32">
 																	<img
 																		src="./assets/images/img-user-01.jpg"
@@ -1007,7 +918,7 @@ function ExamplePage() {
 															/>
 														</div>
 														<div className="slider-item-user">
-															<a href="https://superpet21.github.io/tomorrow-house-p/">
+															<a href="/">
 																<div className="avatar-32">
 																	<img
 																		src="./assets/images/img-user-01.jpg"
@@ -1375,10 +1286,7 @@ function ExamplePage() {
 													<h1 className="visually-hidden">
 														유저1님이 작성하신 리뷰
 													</h1>
-													<a
-														href="https://superpet21.github.io/tomorrow-house-p/"
-														className="avatar-24"
-													>
+													<a href="/" className="avatar-24">
 														<img
 															src="./assets/images/img-user-01.jpg"
 															alt="유저 이미지"
@@ -1425,10 +1333,7 @@ function ExamplePage() {
 													<h1 className="visually-hidden">
 														유저2님이 작성하신 리뷰
 													</h1>
-													<a
-														href="https://superpet21.github.io/tomorrow-house-p/"
-														className="avatar-24"
-													>
+													<a href="/" className="avatar-24">
 														<img
 															src="./assets/images/img-user-01.jpg"
 															alt="유저 이미지"
@@ -1480,7 +1385,7 @@ function ExamplePage() {
 														유저3님이 작성하신 리뷰
 													</h1>
 													<a
-														href="https://superpet21.github.io/tomorrow-house-p/"
+														href="/"
 														className="avatar-24"
 														target="_blank"
 														rel="noreferrer noopener"
@@ -1528,29 +1433,19 @@ function ExamplePage() {
 										</button>
 										<ol className="page-list">
 											<li className="page-item is-active">
-												<a href="https://superpet21.github.io/tomorrow-house-p/">
-													1
-												</a>
+												<a href="/">1</a>
 											</li>
 											<li className="page-item">
-												<a href="https://superpet21.github.io/tomorrow-house-p/">
-													2
-												</a>
+												<a href="/">2</a>
 											</li>
 											<li className="page-item">
-												<a href="https://superpet21.github.io/tomorrow-house-p/">
-													3
-												</a>
+												<a href="/">3</a>
 											</li>
 											<li className="page-item">
-												<a href="https://superpet21.github.io/tomorrow-house-p/">
-													4
-												</a>
+												<a href="/">4</a>
 											</li>
 											<li className="page-item">
-												<a href="https://superpet21.github.io/tomorrow-house-p/">
-													5
-												</a>
+												<a href="/">5</a>
 											</li>
 										</ol>
 										<button className="page-control page-next" type="button">
@@ -1742,29 +1637,19 @@ function ExamplePage() {
 										</button>
 										<ol className="page-list">
 											<li className="page-item is-active">
-												<a href="https://superpet21.github.io/tomorrow-house-p/">
-													1
-												</a>
+												<a href="/">1</a>
 											</li>
 											<li className="page-item">
-												<a href="https://superpet21.github.io/tomorrow-house-p/">
-													2
-												</a>
+												<a href="/">2</a>
 											</li>
 											<li className="page-item">
-												<a href="https://superpet21.github.io/tomorrow-house-p/">
-													3
-												</a>
+												<a href="/">3</a>
 											</li>
 											<li className="page-item">
-												<a href="https://superpet21.github.io/tomorrow-house-p/">
-													4
-												</a>
+												<a href="/">4</a>
 											</li>
 											<li className="page-item">
-												<a href="https://superpet21.github.io/tomorrow-house-p/">
-													5
-												</a>
+												<a href="/">5</a>
 											</li>
 										</ol>
 										<button className="page-control page-next" type="button">
@@ -1848,7 +1733,7 @@ function ExamplePage() {
 								<div className="recommendation-content">
 									<ol className="product-list">
 										<li className="product-item">
-											<a href="https://superpet21.github.io/tomorrow-house-p/">
+											<a href="/">
 												<div className="product-card">
 													<div className="product-card-image">
 														<img
@@ -1877,7 +1762,7 @@ function ExamplePage() {
 											</a>
 										</li>
 										<li className="product-item">
-											<a href="https://superpet21.github.io/tomorrow-house-p/">
+											<a href="/">
 												<div className="product-card">
 													<div className="product-card-image">
 														<img
@@ -1908,7 +1793,7 @@ function ExamplePage() {
 											</a>
 										</li>
 										<li className="product-item">
-											<a href="https://superpet21.github.io/tomorrow-house-p/">
+											<a href="/">
 												<div className="product-card">
 													<div className="product-card-image">
 														<img
@@ -1939,7 +1824,7 @@ function ExamplePage() {
 											</a>
 										</li>
 										<li className="product-item">
-											<a href="https://superpet21.github.io/tomorrow-house-p/">
+											<a href="/">
 												<div className="product-card">
 													<div className="product-card-image">
 														<img
@@ -1986,8 +1871,12 @@ function ExamplePage() {
 								>
 									<div className="floating-order-form-header">
 										<div className="select-group select-group01 is-active">
-											<select className="form-select" required>
-												<option value="" disabled selected>
+											<select
+												className="form-select"
+												defaultValue="default"
+												required
+											>
+												<option value="default" disabled>
 													선택
 												</option>
 												<option value="0">선택사항 1</option>
@@ -2000,8 +1889,9 @@ function ExamplePage() {
 										</div>
 
 										<div className="select-group select-group02">
-											<select className="form-select">
-												<option value="" disabled selected>
+											<select defaultValue="default" className="form-select">
+												{' '}
+												<option value="default" disabled>
 													추가상품(선택)
 												</option>
 												<option value="0">선택사항 1</option>
@@ -2063,8 +1953,12 @@ function ExamplePage() {
 								method="post"
 							>
 								<div className="select-group select-group01 is-active">
-									<select className="form-select" required>
-										<option value="" disabled selected>
+									<select
+										className="form-select"
+										defaultValue="default"
+										required
+									>
+										<option value="default" disabled>
 											선택
 										</option>
 										<option value="0">선택사항 1</option>
@@ -2077,8 +1971,9 @@ function ExamplePage() {
 								</div>
 
 								<div className="select-group select-group02">
-									<select className="form-select">
-										<option value="" disabled selected>
+									<select defaultValue="default" className="form-select">
+										{' '}
+										<option value="default" disabled>
 											추가상품(선택)
 										</option>
 										<option value="0">선택사항 1</option>
@@ -2149,11 +2044,7 @@ function ExamplePage() {
 								<div className="global-footer-item">
 									<dt>주소</dt>
 									<dd>
-										<a
-											href="https://~!"
-											target="_blank"
-											rel="noreferrer noopener"
-										>
+										<a href="/" target="_blank" rel="noreferrer noopener">
 											https://~!
 										</a>
 									</dd>
@@ -2200,25 +2091,19 @@ function ExamplePage() {
 								<div className="search-history-content">
 									<ul className="search-history-list">
 										<li className="search-history-item">
-											<a href="https://superpet21.github.io/tomorrow-house-p/">
-												버그
-											</a>
+											<a href="/">버그</a>
 											<button type="button">
 												<i className="ic-close"></i>
 											</button>
 										</li>
 										<li className="search-history-item">
-											<a href="https://superpet21.github.io/tomorrow-house-p/">
-												튕김버그
-											</a>
+											<a href="/">튕김버그</a>
 											<button type="button">
 												<i className="ic-close"></i>
 											</button>
 										</li>
 										<li className="search-history-item">
-											<a href="https://superpet21.github.io/tomorrow-house-p/">
-												스탠드
-											</a>
+											<a href="/">스탠드</a>
 											<button type="button">
 												<i className="ic-close"></i>
 											</button>

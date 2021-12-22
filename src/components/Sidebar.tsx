@@ -8,7 +8,7 @@ function Sidebar() {
 	return (
 		<>
 			{/* <!-- sidebar --> */}
-			<aside className={`sidebar sm-only ${gnbMenuState ? 'is-active' : null}`}>
+			<aside className={`sidebar sm-only ${gnbMenuState ? 'is-active' : ''}`}>
 				<header className="sidebar-header">
 					<h1 className="logo">
 						<a href="/">

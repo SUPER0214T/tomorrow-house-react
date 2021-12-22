@@ -9,7 +9,7 @@ function SearchModal() {
 			{/* <!-- search-modal --> */}
 			<aside
 				className={`search-modal lg-hidden ${
-					gnbSearchState ? 'is-active' : null
+					gnbSearchState ? 'is-active' : ''
 				}`}
 			>
 				<div className="container">

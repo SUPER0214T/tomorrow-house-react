@@ -1,3 +1,5 @@
+import { useViewportScroll } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import {
 	isDeliveryCollapseAtom,
@@ -11,6 +13,7 @@ import TabletUserGallery from './TabletUserGallery';
 function MainProduct() {
 	const [productSpecState, setProductSpecState] =
 		useRecoilState(productSpecAtom);
+	const [scrollPosition, setScrollPosition] = useState(0);
 
 	const [isInquiryCollapse, setisInquiryCollapse] = useRecoilState(
 		isInquiryCollapseAtom
@@ -19,6 +22,45 @@ function MainProduct() {
 	const [isDeliveryCollapse, setIsDeliveryCollapse] = useRecoilState(
 		isDeliveryCollapseAtom
 	);
+
+	const { scrollY } = useViewportScroll();
+	let reviewY: number;
+	scrollY.onChange(() => {
+		// // onChange는 재렌더링 하는 것으로 보인다. 그러니까 아래의 주석처럼 하면 재렌더링 안 하지 않을까?
+		// // 근데 재렌더링 안 하면 아래의 IntersectionObserver가 동작을 안 하는데?
+		// // onChange 없이 scrollY > ? 하면 console.log(하면 되나?)
+		// const ProductReview = document.querySelector(
+		// 	'.product-section.product-review'
+		// );
+		// reviewY = ProductReview?.getBoundingClientRect().y!;
+		// console.log('reviewY: ', reviewY);
+		// if (reviewY < 240) {
+		// 	setScrollPosition(2);
+		// } else {
+		// 	setScrollPosition(1);
+		// }
+	});
+
+	const dataProduct = document.querySelectorAll('[data-product]');
+
+	const observerOptions = {
+		root: null,
+		rootMargin: '0px',
+		threshold: 0.3,
+	};
+
+	const observerCallback = (
+		entries: IntersectionObserverEntry[],
+		observer: IntersectionObserver
+	) => {
+		entries.forEach((entry) => {
+			if (entry.isIntersecting) {
+				console.log(entry.target);
+			}
+		});
+	};
+	const observer = new IntersectionObserver(observerCallback, observerOptions);
+	dataProduct.forEach((item) => observer.observe(item));
 
 	return (
 		<>
@@ -207,7 +249,11 @@ function MainProduct() {
 											상품정보
 										</button>
 									</li>
-									<li className="product-tab-item">
+									<li
+										className={`product-tab-item ${
+											scrollPosition === 2 ? 'is-active' : ''
+										}`}
+									>
 										<button className="product-tab-review" type="button">
 											리뷰<strong>466</strong>
 										</button>
@@ -245,8 +291,9 @@ function MainProduct() {
 							{/* <!-- product-spec --> */}
 							<div
 								className={`product-section product-spec sm-only ${
-									productSpecState ? 'is-open' : null
+									productSpecState ? 'is-open' : ''
 								}`}
+								data-product="spec"
 							>
 								<div className="product-spec-content">
 									<header className="product-section-header sm-hidden">
@@ -464,7 +511,11 @@ function MainProduct() {
 								aria-hidden
 							></div>
 
-							<div className="product-section product-review">
+							{/* <!-- product-review --> */}
+							<div
+								className="product-section product-review"
+								data-product="review"
+							>
 								<header className="product-section-header">
 									<h1 className="title">리뷰</h1>
 									<strong className="badge" aria-label="리뷰 566개">
@@ -726,7 +777,7 @@ function MainProduct() {
 									setisInquiryCollapse(true);
 								}}
 								className={`product-section-header product-inquiry-collapse sm-only ${
-									isInquiryCollapse ? 'visually-hidden' : null
+									isInquiryCollapse ? 'visually-hidden' : ''
 								}`}
 							>
 								<h1 className="title">문의</h1>
@@ -739,8 +790,9 @@ function MainProduct() {
 							</header>
 							<div
 								className={`product-section product-inquiry ${
-									isInquiryCollapse ? null : 'is-collapse'
+									isInquiryCollapse ? '' : 'is-collapse'
 								} `}
+								data-product="inquiry"
 							>
 								<header className="product-section-header">
 									<h1 className="title">문의</h1>
@@ -941,8 +993,9 @@ function MainProduct() {
 									setIsDeliveryCollapse(true);
 								}}
 								className={`product-section-header product-deliver-collapse sm-only ${
-									isDeliveryCollapse ? 'visually-hidden' : null
+									isDeliveryCollapse ? 'visually-hidden' : ''
 								}`}
+								data-product="delivery-mobile"
 							>
 								<h1 className="title">배송/교환/환불</h1>
 								<button className="icon-button" type="button">
@@ -951,8 +1004,9 @@ function MainProduct() {
 							</header>
 							<div
 								className={`product-section product-delivery ${
-									isDeliveryCollapse ? null : 'is-collapse'
+									isDeliveryCollapse ? '' : 'is-collapse'
 								} `}
+								data-product="delivery"
 							>
 								<header className="product-section-header">
 									<h1 className="title">배송</h1>
@@ -981,7 +1035,12 @@ function MainProduct() {
 							></div>
 
 							{/* <!-- product-refund --> */}
-							<div className="product-section product-refund is-collapse">
+							<div
+								className={`product-section product-refund ${
+									isDeliveryCollapse ? '' : 'is-collapse'
+								}`}
+								data-product="refund"
+							>
 								<header className="product-section-header">
 									<h1 className="title">교환/환불</h1>
 								</header>
@@ -1009,7 +1068,10 @@ function MainProduct() {
 							></div>
 
 							{/* <!-- product-recommendation --> */}
-							<div className="product-section product-recommendation">
+							<div
+								className="product-section product-recommendation"
+								data-product="recommendation"
+							>
 								<header className="product-section-header">
 									<h1 className="title">비슷한 상품</h1>
 								</header>

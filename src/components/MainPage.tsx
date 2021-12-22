@@ -24,7 +24,7 @@ function MainPage() {
 					setOrderFormState(false);
 				}}
 				className={`overlay ${
-					gnbMenuState || gnbSearchState || orderFormState ? 'is-active' : null
+					gnbMenuState || gnbSearchState || orderFormState ? 'is-active' : ''
 				}`}
 				aria-hidden
 			></div>

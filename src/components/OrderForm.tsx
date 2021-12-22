@@ -26,9 +26,7 @@ function OrderForm() {
 			</div>
 
 			{/* <!-- order-form-modal --> */}
-			<div
-				className={`order-form-modal ${orderFormState ? 'is-active' : null}`}
-			>
+			<div className={`order-form-modal ${orderFormState ? 'is-active' : ''}`}>
 				<div className="container">
 					<div className="row">
 						<div className="col-sm-4">

@@ -18,7 +18,10 @@ const settings = {
 
 function TabletUserGallery() {
 	return (
-		<div className="product-section product-user-gallery is-tablet sm-hidden">
+		<div
+			className="product-section product-user-gallery is-tablet sm-hidden"
+			data-product="user-gallery"
+		>
 			<header className="product-section-header">
 				<h1 className="title">유저들의 스타일링 샷</h1>
 				<strong className="badge" aria-label="461개">
@@ -80,7 +83,7 @@ function TabletUserGallery() {
 					<div className="thumbnail">
 						<ol className="thumbnail-list">
 							{imgs.map((el, index) => (
-								<li className="thumbnail-item">
+								<li className="thumbnail-item" key={index}>
 									<button type="button">
 										<img src={el} alt={`리뷰 이미지0${index + 1}`} />
 									</button>
