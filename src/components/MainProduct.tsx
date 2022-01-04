@@ -1,5 +1,5 @@
 import { useViewportScroll } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import {
 	isDeliveryCollapseAtom,
@@ -13,7 +13,8 @@ import TabletUserGallery from './TabletUserGallery';
 function MainProduct() {
 	const [productSpecState, setProductSpecState] =
 		useRecoilState(productSpecAtom);
-	const [scrollPosition, setScrollPosition] = useState(0);
+	const [productTabOrder, setProductTabOrder] = useState(0);
+	const [observerArr, setObserverArr] = useState<HTMLElement[]>([]);
 
 	const [isInquiryCollapse, setisInquiryCollapse] = useRecoilState(
 		isInquiryCollapseAtom
@@ -23,25 +24,81 @@ function MainProduct() {
 		isDeliveryCollapseAtom
 	);
 
-	const { scrollY } = useViewportScroll();
-	let reviewY: number;
-	scrollY.onChange(() => {
-		// // onChange는 재렌더링 하는 것으로 보인다. 그러니까 아래의 주석처럼 하면 재렌더링 안 하지 않을까?
-		// // 근데 재렌더링 안 하면 아래의 IntersectionObserver가 동작을 안 하는데?
-		// // onChange 없이 scrollY > ? 하면 console.log(하면 되나?)
-		// const ProductReview = document.querySelector(
-		// 	'.product-section.product-review'
-		// );
-		// reviewY = ProductReview?.getBoundingClientRect().y!;
-		// console.log('reviewY: ', reviewY);
-		// if (reviewY < 240) {
-		// 	setScrollPosition(2);
-		// } else {
-		// 	setScrollPosition(1);
-		// }
-	});
+	// const [isMount, setIsMount] = useState(false);
+	// useEffect(() => {
+	// 	setIsMount(true);
+	// }, []);
 
-	const dataProduct = document.querySelectorAll('[data-product]');
+	//
+	useLayoutEffect(() => {
+		const productSpec: HTMLElement = document.querySelector('#spec')!;
+		const productReview: HTMLElement = document.querySelector('#review')!;
+		const productInquiry: HTMLElement = document.querySelector('#inquiry')!;
+		const productDelivery: HTMLElement = document.querySelector('#delivery')!;
+		const productRefund: HTMLElement = document.querySelector('#refund')!;
+		const productRecommendation: HTMLElement =
+			document.querySelector('#recommendation')!;
+		const productSpecTablet: HTMLElement = document.querySelector(
+			'.product-spec.sm-hidden'
+		)!;
+
+		setObserverArr([
+			productSpecTablet,
+			productReview,
+			productInquiry,
+			productDelivery,
+			productRecommendation,
+		]);
+	}, []);
+
+	let timer: any;
+	const headerHeight = 184;
+	window.addEventListener('scroll', (e) => {
+		if (!timer) {
+			timer = setTimeout(function () {
+				timer = null;
+				if (window.innerWidth >= 768) {
+					observerArr.forEach((el, i) => {
+						if (window.scrollY >= el.offsetTop - headerHeight) {
+							setProductTabOrder(i);
+						}
+					});
+				}
+			}, 100);
+		}
+	});
+	//
+
+	/* 	const throttle = (func: any, time = 50) => {
+		let timer: any = null;
+		return (...parameters: any) => {
+			if (!timer) {
+				timer = setTimeout(() => {
+					func(...parameters);
+					timer = null;
+				}, time);
+			}
+		};
+	};
+
+	useLayoutEffect(() => {
+		const productSpec: HTMLElement = document.querySelector('#spec')!;
+		const productReview: HTMLElement = document.querySelector('#review')!;
+		const productInquiry: HTMLElement = document.querySelector('#inquiry')!;
+		const productDelivery: HTMLElement = document.querySelector('#delivery')!;
+		const productRefund: HTMLElement = document.querySelector('#refund')!;
+		const productRecommendation: HTMLElement =
+			document.querySelector('#recommendation')!;
+
+		setObserverArr([
+			productSpec,
+			productReview,
+			productInquiry,
+			productDelivery,
+			// productRefund,
+			productRecommendation,
+		]);
+	}, []);
 
 	const observerOptions = {
 		root: null,
@@ -49,18 +106,32 @@ function MainProduct() {
 		threshold: 0.3,
 	};
 
-	const observerCallback = (
-		entries: IntersectionObserverEntry[],
-		observer: IntersectionObserver
-	) => {
+	const observerCallback = (entries: IntersectionObserverEntry[]) => {
 		entries.forEach((entry) => {
-			if (entry.isIntersecting) {
-				console.log(entry.target);
+			if (!entry.isIntersecting && entry.intersectionRatio > 0) {
+				const index = observerArr.findIndex((el) => el === entry.target);
+				console.log(index);
+				if (entry.boundingClientRect.y < 0) {
+					if (productTabOrder !== index + 1) {
+						if (index === 4) {
+							setProductTabOrder(4);
+							// console.error('test1');
+						} else {
+							setProductTabOrder(index + 1);
+							// console.error('test2');
+						}
+					}
+				} else {
+					if (productTabOrder !== index - 1) {
+						setProductTabOrder(index - 1);
+						console.error('test3');
+					}
+				}
 			}
 		});
 	};
 	const observer = new IntersectionObserver(observerCallback, observerOptions);
-	dataProduct.forEach((item) => observer.observe(item));
+	observerArr.forEach((item) => observer.observe(item)); */
 
 	return (
 		<>
@@ -244,31 +315,47 @@ function MainProduct() {
 						<div className="row">
 							<div className="col-sm-4 col-lg-8">
 								<ul className="product-tab-list">
-									<li className="product-tab-item is-active">
+									<li
+										className={`product-tab-item ${
+											productTabOrder === 0 ? 'is-active' : ''
+										}`}
+									>
 										<button className="product-tab-spec" type="button">
 											상품정보
 										</button>
 									</li>
 									<li
 										className={`product-tab-item ${
-											scrollPosition === 2 ? 'is-active' : ''
+											productTabOrder === 1 ? 'is-active' : ''
 										}`}
 									>
 										<button className="product-tab-review" type="button">
 											리뷰<strong>466</strong>
 										</button>
 									</li>
-									<li className="product-tab-item">
+									<li
+										className={`product-tab-item ${
+											productTabOrder === 2 ? 'is-active' : ''
+										}`}
+									>
 										<button className="product-tab-inquiry" type="button">
 											문의<strong>96</strong>
 										</button>
 									</li>
-									<li className="product-tab-item">
+									<li
+										className={`product-tab-item ${
+											productTabOrder === 3 ? 'is-active' : ''
+										}`}
+									>
 										<button className="product-tab-delivery" type="button">
 											배송/환불
 										</button>
 									</li>
-									<li className="product-tab-item">
+									<li
+										className={`product-tab-item ${
+											productTabOrder === 4 ? 'is-active' : ''
+										}`}
+									>
 										<button
 											className="product-tab-recommendation"
 											type="button"
@@ -294,6 +381,7 @@ function MainProduct() {
 									productSpecState ? 'is-open' : ''
 								}`}
 								data-product="spec"
+								id="spec-mobile"
 							>
 								<div className="product-spec-content">
 									<header className="product-section-header sm-hidden">
@@ -403,7 +491,10 @@ function MainProduct() {
 									</table>
 								</div>
 							</div>
-							<div className="product-section product-spec sm-hidden is-open">
+							<div
+								className="product-section product-spec sm-hidden is-open"
+								id="spec"
+							>
 								<div className="product-spec-content">
 									<header className="product-section-header sm-hidden">
 										<h1 className="title">상품정보</h1>
@@ -515,6 +606,7 @@ function MainProduct() {
 							<div
 								className="product-section product-review"
 								data-product="review"
+								id="review"
 							>
 								<header className="product-section-header">
 									<h1 className="title">리뷰</h1>
@@ -793,6 +885,7 @@ function MainProduct() {
 									isInquiryCollapse ? '' : 'is-collapse'
 								} `}
 								data-product="inquiry"
+								id="inquiry"
 							>
 								<header className="product-section-header">
 									<h1 className="title">문의</h1>
@@ -987,7 +1080,7 @@ function MainProduct() {
 								aria-hidden
 							></div>
 
-							{/* <!-- product-deliver --> */}
+							{/* <!-- product-deliver/refund --> */}
 							<header
 								onClick={() => {
 									setIsDeliveryCollapse(true);
@@ -996,17 +1089,20 @@ function MainProduct() {
 									isDeliveryCollapse ? 'visually-hidden' : ''
 								}`}
 								data-product="delivery-mobile"
+								id="delivery-mobile"
 							>
 								<h1 className="title">배송/교환/환불</h1>
 								<button className="icon-button" type="button">
 									<i className="ic-chevron"></i>
 								</button>
 							</header>
+							{/* <!-- product-deliver --> */}
 							<div
 								className={`product-section product-delivery ${
 									isDeliveryCollapse ? '' : 'is-collapse'
 								} `}
 								data-product="delivery"
+								id="delivery"
 							>
 								<header className="product-section-header">
 									<h1 className="title">배송</h1>
@@ -1040,6 +1136,7 @@ function MainProduct() {
 									isDeliveryCollapse ? '' : 'is-collapse'
 								}`}
 								data-product="refund"
+								id="refund"
 							>
 								<header className="product-section-header">
 									<h1 className="title">교환/환불</h1>
@@ -1071,6 +1168,7 @@ function MainProduct() {
 							<div
 								className="product-section product-recommendation"
 								data-product="recommendation"
+								id="recommendation"
 							>
 								<header className="product-section-header">
 									<h1 className="title">비슷한 상품</h1>
