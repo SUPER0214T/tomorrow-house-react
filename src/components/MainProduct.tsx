@@ -1,5 +1,6 @@
 import { useViewportScroll } from 'framer-motion';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import InView from 'react-intersection-observer';
 import { useRecoilState } from 'recoil';
 import {
 	isDeliveryCollapseAtom,
@@ -24,69 +25,11 @@ function MainProduct() {
 		isDeliveryCollapseAtom
 	);
 
-	// const [isMount, setIsMount] = useState(false);
-	// useEffect(() => {
-	// 	setIsMount(true);
-	// }, []);
-
-	//
 	useLayoutEffect(() => {
 		const productSpec: HTMLElement = document.querySelector('#spec')!;
 		const productReview: HTMLElement = document.querySelector('#review')!;
 		const productInquiry: HTMLElement = document.querySelector('#inquiry')!;
 		const productDelivery: HTMLElement = document.querySelector('#delivery')!;
-		const productRefund: HTMLElement = document.querySelector('#refund')!;
-		const productRecommendation: HTMLElement =
-			document.querySelector('#recommendation')!;
-		const productSpecTablet: HTMLElement = document.querySelector(
-			'.product-spec.sm-hidden'
-		)!;
-
-		setObserverArr([
-			productSpecTablet,
-			productReview,
-			productInquiry,
-			productDelivery,
-			productRecommendation,
-		]);
-	}, []);
-
-	let timer: any;
-	const headerHeight = 184;
-	window.addEventListener('scroll', (e) => {
-		if (!timer) {
-			timer = setTimeout(function () {
-				timer = null;
-				if (window.innerWidth >= 768) {
-					observerArr.forEach((el, i) => {
-						if (window.scrollY >= el.offsetTop - headerHeight) {
-							setProductTabOrder(i);
-						}
-					});
-				}
-			}, 100);
-		}
-	});
-	//
-
-	/* 	const throttle = (func: any, time = 50) => {
-		let timer: any = null;
-		return (...parameters: any) => {
-			if (!timer) {
-				timer = setTimeout(() => {
-					func(...parameters);
-					timer = null;
-				}, time);
-			}
-		};
-	};
-
-	useLayoutEffect(() => {
-		const productSpec: HTMLElement = document.querySelector('#spec')!;
-		const productReview: HTMLElement = document.querySelector('#review')!;
-		const productInquiry: HTMLElement = document.querySelector('#inquiry')!;
-		const productDelivery: HTMLElement = document.querySelector('#delivery')!;
-		const productRefund: HTMLElement = document.querySelector('#refund')!;
 		const productRecommendation: HTMLElement =
 			document.querySelector('#recommendation')!;
 
@@ -95,43 +38,77 @@ function MainProduct() {
 			productReview,
 			productInquiry,
 			productDelivery,
-			// productRefund,
 			productRecommendation,
 		]);
 	}, []);
 
-	const observerOptions = {
-		root: null,
-		rootMargin: '0px',
-		threshold: 0.3,
-	};
+	function returnNumberToTabName(order: number): HTMLElement {
+		if (order === 0) {
+			return document.querySelector('.product-tab-spec')?.parentElement!;
+		} else if (order === 1) {
+			return document.querySelector('.product-tab-review')?.parentElement!;
+		} else if (order === 2) {
+			return document.querySelector('.product-tab-inquiry')?.parentElement!;
+		} else if (order === 3) {
+			return document.querySelector('.product-tab-delivery')?.parentElement!;
+		} else if (order === 4) {
+			return document.querySelector('.product-tab-recommendation')
+				?.parentElement!;
+		} else {
+			return document.querySelector('.product-tab-spec')?.parentElement!;
+		}
+	}
 
-	const observerCallback = (entries: IntersectionObserverEntry[]) => {
-		entries.forEach((entry) => {
-			if (!entry.isIntersecting && entry.intersectionRatio > 0) {
-				const index = observerArr.findIndex((el) => el === entry.target);
-				console.log(index);
-				if (entry.boundingClientRect.y < 0) {
-					if (productTabOrder !== index + 1) {
-						if (index === 4) {
-							setProductTabOrder(4);
-							// console.error('test1');
-						} else {
-							setProductTabOrder(index + 1);
-							// console.error('test2');
-						}
-					}
-				} else {
-					if (productTabOrder !== index - 1) {
-						setProductTabOrder(index - 1);
-						console.error('test3');
-					}
-				}
+	function addClassEvent(index: number) {
+		observerArr.forEach((el, i) => {
+			if (el !== observerArr[index]) {
+				returnNumberToTabName(i).classList.remove('is-active');
+			} else {
+				returnNumberToTabName(i).classList.add('is-active');
 			}
 		});
-	};
-	const observer = new IntersectionObserver(observerCallback, observerOptions);
-	observerArr.forEach((item) => observer.observe(item)); */
+	}
+
+	const productTab: NodeListOf<Element> =
+		document.querySelectorAll('.product-tab-item');
+
+	productTab.forEach((el, index) => {
+		el.addEventListener('click', () => {
+			if (index === 0) {
+				if (window.innerWidth <= 768) {
+					console.log(
+						document.querySelector<HTMLElement>(
+							'.product-section.product-spec.sm-only'
+						)?.offsetTop
+					);
+					window.scrollTo({
+						top:
+							Number(
+								document.querySelector<HTMLElement>(
+									'.product-section.product-spec.sm-only'
+								)?.offsetTop
+							) - 130,
+						behavior: 'smooth',
+					});
+				} else {
+					window.scrollTo({
+						top:
+							Number(
+								document.querySelector<HTMLElement>(
+									'.product-section.product-spec.sm-hidden.is-open'
+								)?.offsetTop
+							) - 184,
+						behavior: 'smooth',
+					});
+				}
+			} else {
+				window.scrollTo({
+					top: Number(observerArr[index].offsetTop) - 184,
+					behavior: 'smooth',
+				});
+			}
+		});
+	});
 
 	return (
 		<>
@@ -376,488 +353,588 @@ function MainProduct() {
 							<TabletUserGallery />
 
 							{/* <!-- product-spec --> */}
-							<div
-								className={`product-section product-spec sm-only ${
-									productSpecState ? 'is-open' : ''
-								}`}
-								data-product="spec"
-								id="spec-mobile"
-							>
-								<div className="product-spec-content">
-									<header className="product-section-header sm-hidden">
-										<h1 className="title">상품정보</h1>
-									</header>
+							<InView>
+								{({ ref, entry, inView }) => {
+									if (entry && window.innerWidth <= 768) {
+										// 아래의 if문이 실행이 안 됨
+										if (!entry.isIntersecting && entry.intersectionRatio > 0) {
+											//위에가 문제인데
+											if (entry?.boundingClientRect.y < 0) {
+												addClassEvent(1);
+											} else {
+												addClassEvent(0);
+											}
+										}
+										// 아래는 실행 잘 됨
+										if (!inView && entry?.boundingClientRect.y < 0) {
+											addClassEvent(1);
+										}
+									}
 
-									<div className="button-wrapper sm-only">
-										<button
-											onClick={() => {
-												setProductSpecState(true);
-											}}
-											className="btn-55 btn-primary"
-											type="button"
+									return (
+										<div
+											className={`product-section product-spec sm-only ${
+												productSpecState ? 'is-open' : ''
+											}`}
+											data-product="spec"
+											id="spec-mobile"
+											ref={ref}
 										>
-											펼치기
-										</button>
-									</div>
+											<div className="product-spec-content">
+												<header className="product-section-header sm-hidden">
+													<h1 className="title">상품정보</h1>
+												</header>
 
-									<figure>
-										<img src="./assets/images/img-detail-01.jpg" alt="" />
-										<figcaption className="visually-hidden">
-											제품 상세 이미지1
-										</figcaption>
-									</figure>
-									<figure>
-										<img src="./assets/images/img-detail-02.jpg" alt="" />
-										<figcaption className="visually-hidden">
-											제품 상세 이미지2
-										</figcaption>
-									</figure>
-									<figure>
-										<img src="./assets/images/img-detail-03.jpg" alt="" />
-										<figcaption className="visually-hidden">
-											제품 상세 이미지3
-										</figcaption>
-									</figure>
-									<figure>
-										<img src="./assets/images/img-detail-04.jpg" alt="" />
-										<figcaption className="visually-hidden">
-											제품 상세 이미지4
-										</figcaption>
-									</figure>
-									<figure>
-										<img src="./assets/images/img-detail-05.jpg" alt="" />
-										<figcaption className="visually-hidden">
-											제품 상세 이미지5
-										</figcaption>
-									</figure>
-									<figure>
-										<img src="./assets/images/img-detail-06.jpg" alt="" />
-										<figcaption className="visually-hidden">
-											제품 상세 이미지6
-										</figcaption>
-									</figure>
+												<div className="button-wrapper sm-only">
+													<button
+														onClick={() => {
+															setProductSpecState(true);
+														}}
+														className="btn-55 btn-primary"
+														type="button"
+													>
+														펼치기
+													</button>
+												</div>
 
-									<table className="product-table">
-										<tbody>
-											<tr>
-												<th>품명 및 모델명</th>
-												<td>VO-HT015</td>
-											</tr>
-											<tr>
-												<th>KC 인증 필 유무</th>
-												<td>SU071586-19003</td>
-											</tr>
-											<tr>
-												<th>정격전압, 소비전력</th>
-												<td>AC220V, 60Hz, 400W</td>
-											</tr>
-											<tr>
-												<th>에너지소비효율등급</th>
-												<td>해당사항없음</td>
-											</tr>
-											<tr>
-												<th>동일모델의 출시년월</th>
-												<td>2019.11</td>
-											</tr>
-											<tr>
-												<th>제조자, 수입품의 경우 수입자를 함께 표기</th>
-												<td>VO-HT015</td>
-											</tr>
-											<tr>
-												<th>제조국</th>
-												<td>중국</td>
-											</tr>
-											<tr>
-												<th>크기</th>
-												<td>338*122*300 mm</td>
-											</tr>
-											<tr>
-												<th>냉난방면적</th>
-												<td>개인용</td>
-											</tr>
-											<tr>
-												<th>추가설치비용</th>
-												<td>해당사항없음</td>
-											</tr>
-											<tr>
-												<th>품질보증기준</th>
-												<td>구매일로부터 1년 이내 무상 A/S가능</td>
-											</tr>
-											<tr>
-												<th>A/S 책임자와 전화번호</th>
-												<td>1661-4555</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<div
-								className="product-section product-spec sm-hidden is-open"
-								id="spec"
-							>
-								<div className="product-spec-content">
-									<header className="product-section-header sm-hidden">
-										<h1 className="title">상품정보</h1>
-									</header>
+												<figure>
+													<img src="./assets/images/img-detail-01.jpg" alt="" />
+													<figcaption className="visually-hidden">
+														제품 상세 이미지1
+													</figcaption>
+												</figure>
+												<figure>
+													<img src="./assets/images/img-detail-02.jpg" alt="" />
+													<figcaption className="visually-hidden">
+														제품 상세 이미지2
+													</figcaption>
+												</figure>
+												<figure>
+													<img src="./assets/images/img-detail-03.jpg" alt="" />
+													<figcaption className="visually-hidden">
+														제품 상세 이미지3
+													</figcaption>
+												</figure>
+												<figure>
+													<img src="./assets/images/img-detail-04.jpg" alt="" />
+													<figcaption className="visually-hidden">
+														제품 상세 이미지4
+													</figcaption>
+												</figure>
+												<figure>
+													<img src="./assets/images/img-detail-05.jpg" alt="" />
+													<figcaption className="visually-hidden">
+														제품 상세 이미지5
+													</figcaption>
+												</figure>
+												<figure>
+													<img src="./assets/images/img-detail-06.jpg" alt="" />
+													<figcaption className="visually-hidden">
+														제품 상세 이미지6
+													</figcaption>
+												</figure>
 
-									<div className="button-wrapper sm-only">
-										<button className="btn-55 btn-primary" type="button">
-											펼치기
-										</button>
-									</div>
+												<table className="product-table">
+													<tbody>
+														<tr>
+															<th>품명 및 모델명</th>
+															<td>VO-HT015</td>
+														</tr>
+														<tr>
+															<th>KC 인증 필 유무</th>
+															<td>SU071586-19003</td>
+														</tr>
+														<tr>
+															<th>정격전압, 소비전력</th>
+															<td>AC220V, 60Hz, 400W</td>
+														</tr>
+														<tr>
+															<th>에너지소비효율등급</th>
+															<td>해당사항없음</td>
+														</tr>
+														<tr>
+															<th>동일모델의 출시년월</th>
+															<td>2019.11</td>
+														</tr>
+														<tr>
+															<th>제조자, 수입품의 경우 수입자를 함께 표기</th>
+															<td>VO-HT015</td>
+														</tr>
+														<tr>
+															<th>제조국</th>
+															<td>중국</td>
+														</tr>
+														<tr>
+															<th>크기</th>
+															<td>338*122*300 mm</td>
+														</tr>
+														<tr>
+															<th>냉난방면적</th>
+															<td>개인용</td>
+														</tr>
+														<tr>
+															<th>추가설치비용</th>
+															<td>해당사항없음</td>
+														</tr>
+														<tr>
+															<th>품질보증기준</th>
+															<td>구매일로부터 1년 이내 무상 A/S가능</td>
+														</tr>
+														<tr>
+															<th>A/S 책임자와 전화번호</th>
+															<td>1661-4555</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									);
+								}}
+							</InView>
+							<InView threshold={0.4}>
+								{({ ref, entry, inView }) => {
+									if (entry) {
+										if (
+											!entry.isIntersecting &&
+											entry.intersectionRatio > 0 &&
+											window.innerWidth > 768
+										) {
+											if (entry?.boundingClientRect.y < 0) {
+												addClassEvent(1);
+											} else {
+												addClassEvent(0);
+											}
+										}
+										if (!inView && entry?.boundingClientRect.y < 0) {
+											addClassEvent(1);
+										}
+									}
 
-									<figure>
-										<img src="./assets/images/img-detail-01.jpg" alt="" />
-										<figcaption className="visually-hidden">
-											제품 상세 이미지1
-										</figcaption>
-									</figure>
-									<figure>
-										<img src="./assets/images/img-detail-02.jpg" alt="" />
-										<figcaption className="visually-hidden">
-											제품 상세 이미지2
-										</figcaption>
-									</figure>
-									<figure>
-										<img src="./assets/images/img-detail-03.jpg" alt="" />
-										<figcaption className="visually-hidden">
-											제품 상세 이미지3
-										</figcaption>
-									</figure>
-									<figure>
-										<img src="./assets/images/img-detail-04.jpg" alt="" />
-										<figcaption className="visually-hidden">
-											제품 상세 이미지4
-										</figcaption>
-									</figure>
-									<figure>
-										<img src="./assets/images/img-detail-05.jpg" alt="" />
-										<figcaption className="visually-hidden">
-											제품 상세 이미지5
-										</figcaption>
-									</figure>
-									<figure>
-										<img src="./assets/images/img-detail-06.jpg" alt="" />
-										<figcaption className="visually-hidden">
-											제품 상세 이미지6
-										</figcaption>
-									</figure>
+									return (
+										<div className="product-section product-spec sm-hidden is-open">
+											<div className="product-spec-content">
+												<header
+													className="product-section-header sm-hidden"
+													id="spec"
+												>
+													<h1 className="title">상품정보</h1>
+												</header>
 
-									<table className="product-table">
-										<tbody>
-											<tr>
-												<th>품명 및 모델명</th>
-												<td>VO-HT015</td>
-											</tr>
-											<tr>
-												<th>KC 인증 필 유무</th>
-												<td>SU071586-19003</td>
-											</tr>
-											<tr>
-												<th>정격전압, 소비전력</th>
-												<td>AC220V, 60Hz, 400W</td>
-											</tr>
-											<tr>
-												<th>에너지소비효율등급</th>
-												<td>해당사항없음</td>
-											</tr>
-											<tr>
-												<th>동일모델의 출시년월</th>
-												<td>2019.11</td>
-											</tr>
-											<tr>
-												<th>제조자, 수입품의 경우 수입자를 함께 표기</th>
-												<td>VO-HT015</td>
-											</tr>
-											<tr>
-												<th>제조국</th>
-												<td>중국</td>
-											</tr>
-											<tr>
-												<th>크기</th>
-												<td>338*122*300 mm</td>
-											</tr>
-											<tr>
-												<th>냉난방면적</th>
-												<td>개인용</td>
-											</tr>
-											<tr>
-												<th>추가설치비용</th>
-												<td>해당사항없음</td>
-											</tr>
-											<tr>
-												<th>품질보증기준</th>
-												<td>구매일로부터 1년 이내 무상 A/S가능</td>
-											</tr>
-											<tr>
-												<th>A/S 책임자와 전화번호</th>
-												<td>1661-4555</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
+												<div className="button-wrapper sm-only">
+													<button className="btn-55 btn-primary" type="button">
+														펼치기
+													</button>
+												</div>
+
+												<figure>
+													<img src="./assets/images/img-detail-01.jpg" alt="" />
+													<figcaption className="visually-hidden">
+														제품 상세 이미지1
+													</figcaption>
+												</figure>
+												<figure>
+													<img src="./assets/images/img-detail-02.jpg" alt="" />
+													<figcaption className="visually-hidden">
+														제품 상세 이미지2
+													</figcaption>
+												</figure>
+												<figure>
+													<img src="./assets/images/img-detail-03.jpg" alt="" />
+													<figcaption className="visually-hidden">
+														제품 상세 이미지3
+													</figcaption>
+												</figure>
+												<figure>
+													<img src="./assets/images/img-detail-04.jpg" alt="" />
+													<figcaption className="visually-hidden">
+														제품 상세 이미지4
+													</figcaption>
+												</figure>
+												<figure>
+													<img src="./assets/images/img-detail-05.jpg" alt="" />
+													<figcaption className="visually-hidden">
+														제품 상세 이미지5
+													</figcaption>
+												</figure>
+												<figure>
+													<img src="./assets/images/img-detail-06.jpg" alt="" />
+													<figcaption className="visually-hidden">
+														제품 상세 이미지6
+													</figcaption>
+												</figure>
+
+												<table className="product-table" ref={ref}>
+													<tbody>
+														<tr>
+															<th>품명 및 모델명</th>
+															<td>VO-HT015</td>
+														</tr>
+														<tr>
+															<th>KC 인증 필 유무</th>
+															<td>SU071586-19003</td>
+														</tr>
+														<tr>
+															<th>정격전압, 소비전력</th>
+															<td>AC220V, 60Hz, 400W</td>
+														</tr>
+														<tr>
+															<th>에너지소비효율등급</th>
+															<td>해당사항없음</td>
+														</tr>
+														<tr>
+															<th>동일모델의 출시년월</th>
+															<td>2019.11</td>
+														</tr>
+														<tr>
+															<th>제조자, 수입품의 경우 수입자를 함께 표기</th>
+															<td>VO-HT015</td>
+														</tr>
+														<tr>
+															<th>제조국</th>
+															<td>중국</td>
+														</tr>
+														<tr>
+															<th>크기</th>
+															<td>338*122*300 mm</td>
+														</tr>
+														<tr>
+															<th>냉난방면적</th>
+															<td>개인용</td>
+														</tr>
+														<tr>
+															<th>추가설치비용</th>
+															<td>해당사항없음</td>
+														</tr>
+														<tr>
+															<th>품질보증기준</th>
+															<td>구매일로부터 1년 이내 무상 A/S가능</td>
+														</tr>
+														<tr>
+															<th>A/S 책임자와 전화번호</th>
+															<td>1661-4555</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									);
+								}}
+							</InView>
 							<div
 								className="product-section-divider sm-only"
 								aria-hidden
 							></div>
 
 							{/* <!-- product-review --> */}
-							<div
-								className="product-section product-review"
-								data-product="review"
-								id="review"
-							>
-								<header className="product-section-header">
-									<h1 className="title">리뷰</h1>
-									<strong className="badge" aria-label="리뷰 566개">
-										566
-									</strong>
-									<button className="icon-button" type="button">
-										리뷰쓰기
-									</button>
-								</header>
+							<InView threshold={0.4}>
+								{({ ref, entry, inView }) => {
+									if (entry) {
+										if (!entry.isIntersecting && entry.intersectionRatio > 0) {
+											if (entry?.boundingClientRect.y < 0) {
+												addClassEvent(2);
+											} else {
+												addClassEvent(0);
+											}
+										}
+									}
 
-								<div className="product-review-content">
-									<div className="product-review-summary">
-										<div className="summary-score">
-											<strong aria-label="평점 4.8점">4.8</strong>
-											<div className="star-rating">
-												<i className="ic-star is-active"></i>
-												<i className="ic-star is-active"></i>
-												<i className="ic-star is-active"></i>
-												<i className="ic-star is-active"></i>
-												<i className="ic-star is-active"></i>
+									return (
+										<div
+											className="product-section product-review"
+											data-product="review"
+											id="review"
+											ref={ref}
+										>
+											<header className="product-section-header">
+												<h1 className="title">리뷰</h1>
+												<strong className="badge" aria-label="리뷰 566개">
+													566
+												</strong>
+												<button className="icon-button" type="button">
+													리뷰쓰기
+												</button>
+											</header>
+
+											<div className="product-review-content">
+												<div className="product-review-summary">
+													<div className="summary-score">
+														<strong aria-label="평점 4.8점">4.8</strong>
+														<div className="star-rating">
+															<i className="ic-star is-active"></i>
+															<i className="ic-star is-active"></i>
+															<i className="ic-star is-active"></i>
+															<i className="ic-star is-active"></i>
+															<i className="ic-star is-active"></i>
+														</div>
+													</div>
+
+													<div className="summary-detail">
+														<ul className="summary-detail-list">
+															<li className="summary-detail-item">
+																<strong>5점</strong>
+																<div className="summary-detail-bar-wrapper">
+																	<div className="summary-detail-bar"></div>
+																</div>
+																<span
+																	className="badge"
+																	aria-label="5점 리뷰 467개"
+																>
+																	467
+																</span>
+															</li>
+															<li className="summary-detail-item">
+																<strong>4점</strong>
+																<div className="summary-detail-bar-wrapper">
+																	<div className="summary-detail-bar"></div>
+																</div>
+																<span
+																	className="badge"
+																	aria-label="4점 리뷰 87개"
+																>
+																	87
+																</span>
+															</li>
+															<li className="summary-detail-item">
+																<strong>3점</strong>
+																<div className="summary-detail-bar-wrapper">
+																	<div className="summary-detail-bar"></div>
+																</div>
+																<span
+																	className="badge"
+																	aria-label="3점 리뷰 13"
+																>
+																	13
+																</span>
+															</li>
+															<li className="summary-detail-item">
+																<strong>2점</strong>
+																<div className="summary-detail-bar-wrapper">
+																	<div className="summary-detail-bar"></div>
+																</div>
+																<span
+																	className="badge"
+																	aria-label="2점 리뷰 0개"
+																>
+																	0
+																</span>
+															</li>
+															<li className="summary-detail-item">
+																<strong>1점</strong>
+																<div className="summary-detail-bar-wrapper">
+																	<div className="summary-detail-bar"></div>
+																</div>
+																<span
+																	className="badge"
+																	aria-label="1점 리뷰 0개"
+																>
+																	0
+																</span>
+															</li>
+														</ul>
+													</div>
+												</div>
+
+												<ol className="review-list">
+													{/* <!-- 이미지가 없고, 도움이 돼요를 클릭하지 않았을 때 --> */}
+													<li className="review-item">
+														<article className="review-card">
+															<header className="review-card-header">
+																<h1 className="visually-hidden">
+																	유저1님이 작성하신 리뷰
+																</h1>
+																<a href="/" className="avatar-24">
+																	<img
+																		src="./assets/images/img-user-01.jpg"
+																		alt="유저 이미지"
+																	/>
+																</a>
+																<div className="info">
+																	<h2 className="username">유저1</h2>
+																	<div className="detail">
+																		<div className="star-rating-13">
+																			<i className="ic-star is-active"></i>
+																			<i className="ic-star is-active"></i>
+																			<i className="ic-star is-active"></i>
+																			<i className="ic-star is-active"></i>
+																			<i className="ic-star is-active"></i>
+																		</div>
+																		<time dateTime="2021-01-01">
+																			2021.01.01
+																		</time>
+																		<span>오늘의집 구매</span>
+																	</div>
+																</div>
+															</header>
+															<div className="review-card-body">
+																<p>
+																	집 전체를 데운다기보다는 틀어놓고 앞에
+																	앉아있으면 따땃해지는 정도예요. 불 꺼놓고 난로
+																	켜고 담요 덮은 채로 커피 마시면 아주 좋아요.
+																	고양이도 좋아해요
+																</p>
+															</div>
+															<footer className="review-card-footer">
+																<button
+																	className="btn-32 btn-outlined"
+																	type="button"
+																>
+																	도움이 돼요
+																</button>
+																<p>
+																	<strong aria-label="7명">7</strong>명에게
+																	도움이 되었습니다.
+																</p>
+															</footer>
+														</article>
+													</li>
+
+													{/* <!-- 이미지가 있고, 도움이 돼요를 클릭했을 때 --> */}
+													<li className="review-item">
+														<article className="review-card">
+															<header className="review-card-header">
+																<h1 className="visually-hidden">
+																	유저2님이 작성하신 리뷰
+																</h1>
+																<a href="/" className="avatar-24">
+																	<img
+																		src="./assets/images/img-user-01.jpg"
+																		alt="유저 이미지"
+																	/>
+																</a>
+																<div className="info">
+																	<h2 className="username">유저2</h2>
+																	<div className="detail">
+																		<div className="star-rating-13">
+																			<i className="ic-star is-active"></i>
+																			<i className="ic-star is-active"></i>
+																			<i className="ic-star is-active"></i>
+																			<i className="ic-star is-active"></i>
+																			<i className="ic-star is-active"></i>
+																		</div>
+																		<time dateTime="2021-01-01">
+																			2021.01.01
+																		</time>
+																		<span>오늘의집 구매</span>
+																	</div>
+																</div>
+															</header>
+															<div className="review-card-body">
+																<div className="review-image">
+																	<img
+																		src="./assets/images/img-review-03.jpg"
+																		alt=""
+																	/>
+																</div>
+																<p>
+																	집온도 조절과 타이머가 안 된다는 걸 뒤늦게
+																	알았지만 이쁘니까 대만족! 가격도 대만족!
+																</p>
+															</div>
+															<footer className="review-card-footer">
+																<button
+																	className="btn-32 btn-primary"
+																	type="button"
+																>
+																	<i className="ic-check"></i>도움됨
+																</button>
+																<p>
+																	<strong aria-label="7명">3</strong>명에게
+																	도움이 되었습니다.
+																</p>
+															</footer>
+														</article>
+													</li>
+
+													<li className="review-item">
+														<article className="review-card">
+															<header className="review-card-header">
+																<h1 className="visually-hidden">
+																	유저3님이 작성하신 리뷰
+																</h1>
+																<a
+																	href="/"
+																	className="avatar-24"
+																	target="_blank"
+																	rel="noreferrer noopener"
+																>
+																	1
+																</a>
+																<div className="info">
+																	<h2 className="username">유저3</h2>
+																	<div className="detail">
+																		<div className="star-rating-13">
+																			<i className="ic-star is-active"></i>
+																			<i className="ic-star is-active"></i>
+																			<i className="ic-star is-active"></i>
+																			<i className="ic-star is-active"></i>
+																			<i className="ic-star is-active"></i>
+																		</div>
+																		<time dateTime="2021-01-01">
+																			2021.01.01
+																		</time>
+																		<span>오늘의집 구매</span>
+																	</div>
+																</div>
+															</header>
+															<div className="review-card-body">
+																<p>
+																	작업실에서 손이 시려워서 책상 위에 올려서
+																	쓸걸로 골랐습니다! 아주아주 뜨듯하고 크기도
+																	적당하고 민트 사고싶엇지만 품절 ㅠㅠ
+																</p>
+															</div>
+															<footer className="review-card-footer">
+																<button
+																	className="btn-32 btn-outlined"
+																	type="button"
+																>
+																	도움이 돼요
+																</button>
+																<p>
+																	<strong aria-label="7명">7</strong>명에게
+																	도움이 되었습니다.
+																</p>
+															</footer>
+														</article>
+													</li>
+												</ol>
+
+												<div className="pagination">
+													<button
+														className="page-control page-prev"
+														type="button"
+													>
+														<i className="ic-chevron"></i>
+													</button>
+													<ol className="page-list">
+														<li className="page-item is-active">
+															<a href="/">1</a>
+														</li>
+														<li className="page-item">
+															<a href="/">2</a>
+														</li>
+														<li className="page-item">
+															<a href="/">3</a>
+														</li>
+														<li className="page-item">
+															<a href="/">4</a>
+														</li>
+														<li className="page-item">
+															<a href="/">5</a>
+														</li>
+													</ol>
+													<button
+														className="page-control page-next"
+														type="button"
+													>
+														<i className="ic-chevron"></i>
+													</button>
+												</div>
 											</div>
 										</div>
-
-										<div className="summary-detail">
-											<ul className="summary-detail-list">
-												<li className="summary-detail-item">
-													<strong>5점</strong>
-													<div className="summary-detail-bar-wrapper">
-														<div className="summary-detail-bar"></div>
-													</div>
-													<span className="badge" aria-label="5점 리뷰 467개">
-														467
-													</span>
-												</li>
-												<li className="summary-detail-item">
-													<strong>4점</strong>
-													<div className="summary-detail-bar-wrapper">
-														<div className="summary-detail-bar"></div>
-													</div>
-													<span className="badge" aria-label="4점 리뷰 87개">
-														87
-													</span>
-												</li>
-												<li className="summary-detail-item">
-													<strong>3점</strong>
-													<div className="summary-detail-bar-wrapper">
-														<div className="summary-detail-bar"></div>
-													</div>
-													<span className="badge" aria-label="3점 리뷰 13">
-														13
-													</span>
-												</li>
-												<li className="summary-detail-item">
-													<strong>2점</strong>
-													<div className="summary-detail-bar-wrapper">
-														<div className="summary-detail-bar"></div>
-													</div>
-													<span className="badge" aria-label="2점 리뷰 0개">
-														0
-													</span>
-												</li>
-												<li className="summary-detail-item">
-													<strong>1점</strong>
-													<div className="summary-detail-bar-wrapper">
-														<div className="summary-detail-bar"></div>
-													</div>
-													<span className="badge" aria-label="1점 리뷰 0개">
-														0
-													</span>
-												</li>
-											</ul>
-										</div>
-									</div>
-
-									<ol className="review-list">
-										{/* <!-- 이미지가 없고, 도움이 돼요를 클릭하지 않았을 때 --> */}
-										<li className="review-item">
-											<article className="review-card">
-												<header className="review-card-header">
-													<h1 className="visually-hidden">
-														유저1님이 작성하신 리뷰
-													</h1>
-													<a href="/" className="avatar-24">
-														<img
-															src="./assets/images/img-user-01.jpg"
-															alt="유저 이미지"
-														/>
-													</a>
-													<div className="info">
-														<h2 className="username">유저1</h2>
-														<div className="detail">
-															<div className="star-rating-13">
-																<i className="ic-star is-active"></i>
-																<i className="ic-star is-active"></i>
-																<i className="ic-star is-active"></i>
-																<i className="ic-star is-active"></i>
-																<i className="ic-star is-active"></i>
-															</div>
-															<time dateTime="2021-01-01">2021.01.01</time>
-															<span>오늘의집 구매</span>
-														</div>
-													</div>
-												</header>
-												<div className="review-card-body">
-													<p>
-														집 전체를 데운다기보다는 틀어놓고 앞에 앉아있으면
-														따땃해지는 정도예요. 불 꺼놓고 난로 켜고 담요 덮은
-														채로 커피 마시면 아주 좋아요. 고양이도 좋아해요
-													</p>
-												</div>
-												<footer className="review-card-footer">
-													<button className="btn-32 btn-outlined" type="button">
-														도움이 돼요
-													</button>
-													<p>
-														<strong aria-label="7명">7</strong>명에게 도움이
-														되었습니다.
-													</p>
-												</footer>
-											</article>
-										</li>
-
-										{/* <!-- 이미지가 있고, 도움이 돼요를 클릭했을 때 --> */}
-										<li className="review-item">
-											<article className="review-card">
-												<header className="review-card-header">
-													<h1 className="visually-hidden">
-														유저2님이 작성하신 리뷰
-													</h1>
-													<a href="/" className="avatar-24">
-														<img
-															src="./assets/images/img-user-01.jpg"
-															alt="유저 이미지"
-														/>
-													</a>
-													<div className="info">
-														<h2 className="username">유저2</h2>
-														<div className="detail">
-															<div className="star-rating-13">
-																<i className="ic-star is-active"></i>
-																<i className="ic-star is-active"></i>
-																<i className="ic-star is-active"></i>
-																<i className="ic-star is-active"></i>
-																<i className="ic-star is-active"></i>
-															</div>
-															<time dateTime="2021-01-01">2021.01.01</time>
-															<span>오늘의집 구매</span>
-														</div>
-													</div>
-												</header>
-												<div className="review-card-body">
-													<div className="review-image">
-														<img
-															src="./assets/images/img-review-03.jpg"
-															alt=""
-														/>
-													</div>
-													<p>
-														집온도 조절과 타이머가 안 된다는 걸 뒤늦게 알았지만
-														이쁘니까 대만족! 가격도 대만족!
-													</p>
-												</div>
-												<footer className="review-card-footer">
-													<button className="btn-32 btn-primary" type="button">
-														<i className="ic-check"></i>도움됨
-													</button>
-													<p>
-														<strong aria-label="7명">3</strong>명에게 도움이
-														되었습니다.
-													</p>
-												</footer>
-											</article>
-										</li>
-
-										<li className="review-item">
-											<article className="review-card">
-												<header className="review-card-header">
-													<h1 className="visually-hidden">
-														유저3님이 작성하신 리뷰
-													</h1>
-													<a
-														href="/"
-														className="avatar-24"
-														target="_blank"
-														rel="noreferrer noopener"
-													>
-														1
-													</a>
-													<div className="info">
-														<h2 className="username">유저3</h2>
-														<div className="detail">
-															<div className="star-rating-13">
-																<i className="ic-star is-active"></i>
-																<i className="ic-star is-active"></i>
-																<i className="ic-star is-active"></i>
-																<i className="ic-star is-active"></i>
-																<i className="ic-star is-active"></i>
-															</div>
-															<time dateTime="2021-01-01">2021.01.01</time>
-															<span>오늘의집 구매</span>
-														</div>
-													</div>
-												</header>
-												<div className="review-card-body">
-													<p>
-														작업실에서 손이 시려워서 책상 위에 올려서 쓸걸로
-														골랐습니다! 아주아주 뜨듯하고 크기도 적당하고 민트
-														사고싶엇지만 품절 ㅠㅠ
-													</p>
-												</div>
-												<footer className="review-card-footer">
-													<button className="btn-32 btn-outlined" type="button">
-														도움이 돼요
-													</button>
-													<p>
-														<strong aria-label="7명">7</strong>명에게 도움이
-														되었습니다.
-													</p>
-												</footer>
-											</article>
-										</li>
-									</ol>
-
-									<div className="pagination">
-										<button className="page-control page-prev" type="button">
-											<i className="ic-chevron"></i>
-										</button>
-										<ol className="page-list">
-											<li className="page-item is-active">
-												<a href="/">1</a>
-											</li>
-											<li className="page-item">
-												<a href="/">2</a>
-											</li>
-											<li className="page-item">
-												<a href="/">3</a>
-											</li>
-											<li className="page-item">
-												<a href="/">4</a>
-											</li>
-											<li className="page-item">
-												<a href="/">5</a>
-											</li>
-										</ol>
-										<button className="page-control page-next" type="button">
-											<i className="ic-chevron"></i>
-										</button>
-									</div>
-								</div>
-							</div>
+									);
+								}}
+							</InView>
 							<div
 								className="product-section-divider sm-only"
 								aria-hidden
@@ -869,7 +946,7 @@ function MainProduct() {
 									setisInquiryCollapse(true);
 								}}
 								className={`product-section-header product-inquiry-collapse sm-only ${
-									isInquiryCollapse ? 'visually-hidden' : ''
+									isInquiryCollapse ? 'visually-hidden' : 'visually-hidden'
 								}`}
 							>
 								<h1 className="title">문의</h1>
@@ -880,201 +957,227 @@ function MainProduct() {
 									<i className="ic-chevron"></i>
 								</button>
 							</header>
-							<div
-								className={`product-section product-inquiry ${
-									isInquiryCollapse ? '' : 'is-collapse'
-								} `}
-								data-product="inquiry"
-								id="inquiry"
-							>
-								<header className="product-section-header">
-									<h1 className="title">문의</h1>
-									<strong className="badge" aria-label="문의 96개">
-										96
-									</strong>
-									<button className="icon-button" type="button">
-										문의하기
-									</button>
-								</header>
+							<InView threshold={0.4}>
+								{({ ref, entry, inView }) => {
+									if (entry) {
+										if (!entry.isIntersecting && entry.intersectionRatio > 0) {
+											if (entry?.boundingClientRect.y < 0) {
+												addClassEvent(3);
+											} else {
+												addClassEvent(1);
+											}
+										}
+									}
 
-								<div className="product-inquiry-content">
-									<ol className="inquiry-list">
-										{/* <!-- 공개 + 미답변 --> */}
-										<li className="inquiry-item">
-											<div className="inquiry-card">
-												<dl className="inquiry-card-detail">
-													<dt className="visually-hidden">구매 여부</dt>
-													<dd>구매</dd>
-													<dt className="visually-hidden">문의 유형</dt>
-													<dd>상품</dd>
-													<dt className="visually-hidden">답변 여부</dt>
-													<dd>미답변</dd>
-												</dl>
+									return (
+										<div
+											className={`product-section product-inquiry ${
+												isInquiryCollapse ? '' : '' // 우측이 원래 is-collapse
+											} `}
+											data-product="inquiry"
+											id="inquiry"
+											ref={ref}
+										>
+											<header className="product-section-header">
+												<h1 className="title">문의</h1>
+												<strong className="badge" aria-label="문의 96개">
+													96
+												</strong>
+												<button className="icon-button" type="button">
+													문의하기
+												</button>
+											</header>
 
-												<div className="inquiry-card-date">
-													<h2>유저*</h2>
-													<time dateTime="2021-01-01 12:34">
-														2021년 1월 1일 12시 34분
-													</time>
-												</div>
+											<div className="product-inquiry-content">
+												<ol className="inquiry-list">
+													{/* <!-- 공개 + 미답변 --> */}
+													<li className="inquiry-item">
+														<div className="inquiry-card">
+															<dl className="inquiry-card-detail">
+																<dt className="visually-hidden">구매 여부</dt>
+																<dd>구매</dd>
+																<dt className="visually-hidden">문의 유형</dt>
+																<dd>상품</dd>
+																<dt className="visually-hidden">답변 여부</dt>
+																<dd>미답변</dd>
+															</dl>
 
-												<div className="inquiry-card-body">
-													<div className="question-content">
-														<h2 aria-label="문의 내용">Q</h2>
-														<p>
-															상품받았는데 사용하면서 보니까 불들어오는곳 옆에
-															하얀 부분이 갈색으로 얼룩져있는데 불량인가요...?
-															위험하지는 않겠죠? 다른분들 후기사진에는 다 깨끗한
-															것 같아서요! 사진첨부가없어서 텍스트로 설명하려
-															하니 애매하네요ㅠㅠ
-														</p>
-													</div>
-												</div>
-											</div>
-										</li>
-
-										{/* <!-- 공개 + 답변 --> */}
-										<li className="inquiry-item">
-											<div className="inquiry-card">
-												<dl className="inquiry-card-detail">
-													<dt className="visually-hidden">구매 여부</dt>
-													<dd>구매</dd>
-													<dt className="visually-hidden">문의 유형</dt>
-													<dd>상품</dd>
-													<dt className="visually-hidden">답변 여부</dt>
-													<dd className="is-answered">답변완료</dd>
-												</dl>
-
-												<div className="inquiry-card-date">
-													<h2>유저*</h2>
-													<time dateTime="2021-01-01 12:34">
-														2021년 1월 1일 12시 34분
-													</time>
-												</div>
-
-												<div className="inquiry-card-body">
-													<div className="question-content">
-														<h2 aria-label="문의 내용">Q</h2>
-														<p>
-															상품받았는데 사용하면서 보니까 불들어오는곳 옆에
-															하얀 부분이 갈색으로 얼룩져있는데 불량인가요...?
-															위험하지는 않겠죠? 다른분들 후기사진에는 다 깨끗한
-															것 같아서요! 사진첨부가없어서 텍스트로 설명하려
-															하니 애매하네요ㅠㅠ
-														</p>
-													</div>
-
-													<div className="answer-card">
-														<h2 aria-label="답변 내용">A</h2>
-														<div className="answer-info">
-															<div className="answer-header">
-																<h2>OA</h2>
-																<time dateTime="2021-01-04 09:03">
-																	2021년 1월 4일 09시 03분
+															<div className="inquiry-card-date">
+																<h2>유저*</h2>
+																<time dateTime="2021-01-01 12:34">
+																	2021년 1월 1일 12시 34분
 																</time>
 															</div>
-															<p>
-																안녕하세요 고객님, 보아르입니다:) 현재 고객님의
-																주문 정보가 확인되지 않아 바로 안내드리지 못하는
-																점 양해 부탁드립니다. 문의하신 제품의 경우 현재
-																주문폭주로 인한 예약 판매중으로 순차 발송
-																진행되고 있습니다. 주문 시 최대한 빠른 발송
-																진행될 수 있도록 노력하겠습니다. 감사합니다.
-															</p>
+
+															<div className="inquiry-card-body">
+																<div className="question-content">
+																	<h2 aria-label="문의 내용">Q</h2>
+																	<p>
+																		상품받았는데 사용하면서 보니까 불들어오는곳
+																		옆에 하얀 부분이 갈색으로 얼룩져있는데
+																		불량인가요...? 위험하지는 않겠죠? 다른분들
+																		후기사진에는 다 깨끗한 것 같아서요!
+																		사진첨부가없어서 텍스트로 설명하려 하니
+																		애매하네요ㅠㅠ
+																	</p>
+																</div>
+															</div>
 														</div>
-													</div>
+													</li>
+
+													{/* <!-- 공개 + 답변 --> */}
+													<li className="inquiry-item">
+														<div className="inquiry-card">
+															<dl className="inquiry-card-detail">
+																<dt className="visually-hidden">구매 여부</dt>
+																<dd>구매</dd>
+																<dt className="visually-hidden">문의 유형</dt>
+																<dd>상품</dd>
+																<dt className="visually-hidden">답변 여부</dt>
+																<dd className="is-answered">답변완료</dd>
+															</dl>
+
+															<div className="inquiry-card-date">
+																<h2>유저*</h2>
+																<time dateTime="2021-01-01 12:34">
+																	2021년 1월 1일 12시 34분
+																</time>
+															</div>
+
+															<div className="inquiry-card-body">
+																<div className="question-content">
+																	<h2 aria-label="문의 내용">Q</h2>
+																	<p>
+																		상품받았는데 사용하면서 보니까 불들어오는곳
+																		옆에 하얀 부분이 갈색으로 얼룩져있는데
+																		불량인가요...? 위험하지는 않겠죠? 다른분들
+																		후기사진에는 다 깨끗한 것 같아서요!
+																		사진첨부가없어서 텍스트로 설명하려 하니
+																		애매하네요ㅠㅠ
+																	</p>
+																</div>
+
+																<div className="answer-card">
+																	<h2 aria-label="답변 내용">A</h2>
+																	<div className="answer-info">
+																		<div className="answer-header">
+																			<h2>OA</h2>
+																			<time dateTime="2021-01-04 09:03">
+																				2021년 1월 4일 09시 03분
+																			</time>
+																		</div>
+																		<p>
+																			안녕하세요 고객님, 보아르입니다:) 현재
+																			고객님의 주문 정보가 확인되지 않아 바로
+																			안내드리지 못하는 점 양해 부탁드립니다.
+																			문의하신 제품의 경우 현재 주문폭주로 인한
+																			예약 판매중으로 순차 발송 진행되고
+																			있습니다. 주문 시 최대한 빠른 발송 진행될
+																			수 있도록 노력하겠습니다. 감사합니다.
+																		</p>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</li>
+
+													{/* <!-- 비공개 + 미답변 --> */}
+													<li className="inquiry-item">
+														<div className="inquiry-card">
+															<dl className="inquiry-card-detail">
+																<dt className="visually-hidden">구매 여부</dt>
+																<dd>구매</dd>
+																<dt className="visually-hidden">문의 유형</dt>
+																<dd>상품</dd>
+																<dt className="visually-hidden">답변 여부</dt>
+																<dd>미답변</dd>
+															</dl>
+
+															<div className="inquiry-card-date">
+																<h2>유저*</h2>
+																<time dateTime="2021-01-01 12:34">
+																	2021년 1월 1일 12시 34분
+																</time>
+															</div>
+
+															<div className="inquiry-card-body">
+																<div className="question-content">
+																	<h2 aria-label="문의 내용">Q</h2>
+																	<p>
+																		<i className="ic-lock"></i>비밀글입니다.
+																	</p>
+																</div>
+															</div>
+														</div>
+													</li>
+
+													{/* <!-- 비공개 + 미답변 --> */}
+													<li className="inquiry-item">
+														<div className="inquiry-card">
+															<dl className="inquiry-card-detail">
+																<dt className="visually-hidden">구매 여부</dt>
+																<dd>구매</dd>
+																<dt className="visually-hidden">문의 유형</dt>
+																<dd>상품</dd>
+																<dt className="visually-hidden">답변 여부</dt>
+																<dd className="is-answered">답변 완료</dd>
+															</dl>
+
+															<div className="inquiry-card-date">
+																<h2>유저*</h2>
+																<time dateTime="2021-01-01 12:34">
+																	2021년 1월 1일 12시 34분
+																</time>
+															</div>
+
+															<div className="inquiry-card-body">
+																<div className="question-content">
+																	<h2 aria-label="문의 내용">Q</h2>
+																	<p>
+																		<i className="ic-lock"></i>비밀글입니다.
+																	</p>
+																</div>
+															</div>
+														</div>
+													</li>
+												</ol>
+
+												<div className="pagination">
+													<button
+														className="page-control page-prev"
+														type="button"
+													>
+														<i className="ic-chevron"></i>
+													</button>
+													<ol className="page-list">
+														<li className="page-item is-active">
+															<a href="/">1</a>
+														</li>
+														<li className="page-item">
+															<a href="/">2</a>
+														</li>
+														<li className="page-item">
+															<a href="/">3</a>
+														</li>
+														<li className="page-item">
+															<a href="/">4</a>
+														</li>
+														<li className="page-item">
+															<a href="/">5</a>
+														</li>
+													</ol>
+													<button
+														className="page-control page-next"
+														type="button"
+													>
+														<i className="ic-chevron"></i>
+													</button>
 												</div>
 											</div>
-										</li>
-
-										{/* <!-- 비공개 + 미답변 --> */}
-										<li className="inquiry-item">
-											<div className="inquiry-card">
-												<dl className="inquiry-card-detail">
-													<dt className="visually-hidden">구매 여부</dt>
-													<dd>구매</dd>
-													<dt className="visually-hidden">문의 유형</dt>
-													<dd>상품</dd>
-													<dt className="visually-hidden">답변 여부</dt>
-													<dd>미답변</dd>
-												</dl>
-
-												<div className="inquiry-card-date">
-													<h2>유저*</h2>
-													<time dateTime="2021-01-01 12:34">
-														2021년 1월 1일 12시 34분
-													</time>
-												</div>
-
-												<div className="inquiry-card-body">
-													<div className="question-content">
-														<h2 aria-label="문의 내용">Q</h2>
-														<p>
-															<i className="ic-lock"></i>비밀글입니다.
-														</p>
-													</div>
-												</div>
-											</div>
-										</li>
-
-										{/* <!-- 비공개 + 미답변 --> */}
-										<li className="inquiry-item">
-											<div className="inquiry-card">
-												<dl className="inquiry-card-detail">
-													<dt className="visually-hidden">구매 여부</dt>
-													<dd>구매</dd>
-													<dt className="visually-hidden">문의 유형</dt>
-													<dd>상품</dd>
-													<dt className="visually-hidden">답변 여부</dt>
-													<dd className="is-answered">답변 완료</dd>
-												</dl>
-
-												<div className="inquiry-card-date">
-													<h2>유저*</h2>
-													<time dateTime="2021-01-01 12:34">
-														2021년 1월 1일 12시 34분
-													</time>
-												</div>
-
-												<div className="inquiry-card-body">
-													<div className="question-content">
-														<h2 aria-label="문의 내용">Q</h2>
-														<p>
-															<i className="ic-lock"></i>비밀글입니다.
-														</p>
-													</div>
-												</div>
-											</div>
-										</li>
-									</ol>
-
-									<div className="pagination">
-										<button className="page-control page-prev" type="button">
-											<i className="ic-chevron"></i>
-										</button>
-										<ol className="page-list">
-											<li className="page-item is-active">
-												<a href="/">1</a>
-											</li>
-											<li className="page-item">
-												<a href="/">2</a>
-											</li>
-											<li className="page-item">
-												<a href="/">3</a>
-											</li>
-											<li className="page-item">
-												<a href="/">4</a>
-											</li>
-											<li className="page-item">
-												<a href="/">5</a>
-											</li>
-										</ol>
-										<button className="page-control page-next" type="button">
-											<i className="ic-chevron"></i>
-										</button>
-									</div>
-								</div>
-							</div>
+										</div>
+									);
+								}}
+							</InView>
 							<div
 								className="product-section-divider sm-only"
 								aria-hidden
@@ -1086,7 +1189,7 @@ function MainProduct() {
 									setIsDeliveryCollapse(true);
 								}}
 								className={`product-section-header product-deliver-collapse sm-only ${
-									isDeliveryCollapse ? 'visually-hidden' : ''
+									isDeliveryCollapse ? 'visually-hidden' : 'visually-hidden'
 								}`}
 								data-product="delivery-mobile"
 								id="delivery-mobile"
@@ -1097,34 +1200,54 @@ function MainProduct() {
 								</button>
 							</header>
 							{/* <!-- product-deliver --> */}
-							<div
-								className={`product-section product-delivery ${
-									isDeliveryCollapse ? '' : 'is-collapse'
-								} `}
-								data-product="delivery"
-								id="delivery"
-							>
-								<header className="product-section-header">
-									<h1 className="title">배송</h1>
-								</header>
+							<InView threshold={0.4}>
+								{({ ref, entry, inView }) => {
+									if (entry) {
+										if (!entry.isIntersecting && entry.intersectionRatio > 0) {
+											if (entry?.boundingClientRect.y < 0) {
+												addClassEvent(4);
+											} else {
+												addClassEvent(2);
+											}
+										}
+										if (!inView && entry?.boundingClientRect.y < 0) {
+											addClassEvent(4);
+										}
+									}
 
-								<table className="product-table">
-									<tbody>
-										<tr>
-											<th>배송</th>
-											<td>일반택배</td>
-										</tr>
-										<tr>
-											<th>배송비</th>
-											<td>무료 배송</td>
-										</tr>
-										<tr>
-											<th>배송불가 지역</th>
-											<td>배송불가 지역이 없습니다</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
+									return (
+										<div
+											className={`product-section product-delivery ${
+												isDeliveryCollapse ? '' : '' // 우측이 원래 is-collapse
+											} `}
+											data-product="delivery"
+											id="delivery"
+											ref={ref}
+										>
+											<header className="product-section-header">
+												<h1 className="title">배송</h1>
+											</header>
+
+											<table className="product-table">
+												<tbody>
+													<tr>
+														<th>배송</th>
+														<td>일반택배</td>
+													</tr>
+													<tr>
+														<th>배송비</th>
+														<td>무료 배송</td>
+													</tr>
+													<tr>
+														<th>배송불가 지역</th>
+														<td>배송불가 지역이 없습니다</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									);
+								}}
+							</InView>
 							<div
 								className="product-section-divider sm-only product-deliver-divider"
 								aria-hidden
@@ -1133,7 +1256,7 @@ function MainProduct() {
 							{/* <!-- product-refund --> */}
 							<div
 								className={`product-section product-refund ${
-									isDeliveryCollapse ? '' : 'is-collapse'
+									isDeliveryCollapse ? '' : '' // 우측이 원래 is-collapse
 								}`}
 								data-product="refund"
 								id="refund"
@@ -1165,139 +1288,164 @@ function MainProduct() {
 							></div>
 
 							{/* <!-- product-recommendation --> */}
-							<div
-								className="product-section product-recommendation"
-								data-product="recommendation"
-								id="recommendation"
-							>
-								<header className="product-section-header">
-									<h1 className="title">비슷한 상품</h1>
-								</header>
-								<div className="recommendation-content">
-									<ol className="product-list">
-										<li className="product-item">
-											<a href="/">
-												<div className="product-card">
-													<div className="product-card-image">
-														<img
-															src="./assets/images/img-recommendation-01.jpg"
-															alt="추천 상품 01"
-														/>
-													</div>
-													<strong className="product-card-brand">emk</strong>
-													<h2 className="product-card-title">
-														시즌템! 감성 레트로 전기히터 EQH-S161 3개의 컬러!
-													</h2>
-													<div className="product-card-price">
-														<span className="rate">72</span>
-														<span className="percent">%</span>
-														<strong className="amount">49,000</strong>
-													</div>
-													<div className="product-card-summary">
-														<div className="star-rating">
-															<i className="ic-star is-active"></i>
-														</div>
-														<strong aria-label="평점 4.8점">4.8</strong>
-														<span>리뷰 3,605</span>
-													</div>
-													<div className="tag-gray sm-only">무료배송</div>
-												</div>
-											</a>
-										</li>
-										<li className="product-item">
-											<a href="/">
-												<div className="product-card">
-													<div className="product-card-image">
-														<img
-															src="./assets/images/img-recommendation-02.jpg"
-															alt="추천 상품 01"
-														/>
-													</div>
-													<strong className="product-card-brand">
-														플러스마이너스제로{' '}
-													</strong>
-													<h2 className="product-card-title">
-														원적외선 2단 히터 XHS-Y010
-													</h2>
-													<div className="product-card-price">
-														<span className="rate">10</span>
-														<span className="percent">%</span>
-														<strong className="amount">88,200</strong>
-													</div>
-													<div className="product-card-summary">
-														<div className="star-rating">
-															<i className="ic-star is-active"></i>
-														</div>
-														<strong aria-label="평점 4.5점">4.5</strong>
-														<span>리뷰 28</span>
-													</div>
-													<div className="tag-gray sm-only">무료배송</div>
-												</div>
-											</a>
-										</li>
-										<li className="product-item">
-											<a href="/">
-												<div className="product-card">
-													<div className="product-card-image">
-														<img
-															src="./assets/images/img-recommendation-03.jpg"
-															alt="추천 상품 01"
-														/>
-													</div>
-													<strong className="product-card-brand">
-														플러스마이너스제로{' '}
-													</strong>
-													<h2 className="product-card-title">
-														리플렉트 에코히터 4colors{' '}
-													</h2>
-													<div className="product-card-price">
-														<span className="rate">23</span>
-														<span className="percent">%</span>
-														<strong className="amount">129,000</strong>
-													</div>
-													<div className="product-card-summary">
-														<div className="star-rating">
-															<i className="ic-star is-active"></i>
-														</div>
-														<strong aria-label="평점 4.6점">4.6</strong>
-														<span>리뷰 605</span>
-													</div>
-													<div className="tag-gray sm-only">무료배송</div>
-												</div>
-											</a>
-										</li>
-										<li className="product-item">
-											<a href="/">
-												<div className="product-card">
-													<div className="product-card-image">
-														<img
-															src="./assets/images/img-recommendation-04.jpg"
-															alt="추천 상품 01"
-														/>
-													</div>
-													<strong className="product-card-brand">코시나</strong>
-													<h2 className="product-card-title">
-														오방난로 히터 6종 모음전
-													</h2>
-													<div className="product-card-price">
-														<span className="rate">52</span>
-														<span className="percent">%</span>
-														<strong className="amount">56,900</strong>
-													</div>
-													<div className="product-card-summary">
-														<div className="star-rating">
-															<i className="ic-star is-active"></i>
-														</div>
-														<strong aria-label="평점 4.6점">4.6</strong>
-														<span>리뷰 250</span>
-													</div>
-													<div className="tag-gray sm-only">무료배송</div>
-												</div>
-											</a>
-										</li>
-									</ol>
-								</div>
-							</div>
+							<InView threshold={0.4}>
+								{({ ref, entry, inView }) => {
+									if (entry) {
+										if (!entry.isIntersecting && entry.intersectionRatio > 0) {
+											if (entry?.boundingClientRect.y < 0) {
+												addClassEvent(4);
+											} else {
+												addClassEvent(3);
+											}
+										}
+										if (inView) {
+											addClassEvent(4);
+										}
+									}
+
+									return (
+										<div
+											className="product-section product-recommendation"
+											data-product="recommendation"
+											id="recommendation"
+											ref={ref}
+										>
+											<header className="product-section-header">
+												<h1 className="title">비슷한 상품</h1>
+											</header>
+											<div className="recommendation-content">
+												<ol className="product-list">
+													<li className="product-item">
+														<a href="/">
+															<div className="product-card">
+																<div className="product-card-image">
+																	<img
+																		src="./assets/images/img-recommendation-01.jpg"
+																		alt="추천 상품 01"
+																	/>
+																</div>
+																<strong className="product-card-brand">
+																	emk
+																</strong>
+																<h2 className="product-card-title">
+																	시즌템! 감성 레트로 전기히터 EQH-S161 3개의
+																	컬러!
+																</h2>
+																<div className="product-card-price">
+																	<span className="rate">72</span>
+																	<span className="percent">%</span>
+																	<strong className="amount">49,000</strong>
+																</div>
+																<div className="product-card-summary">
+																	<div className="star-rating">
+																		<i className="ic-star is-active"></i>
+																	</div>
+																	<strong aria-label="평점 4.8점">4.8</strong>
+																	<span>리뷰 3,605</span>
+																</div>
+																<div className="tag-gray sm-only">무료배송</div>
+															</div>
+														</a>
+													</li>
+													<li className="product-item">
+														<a href="/">
+															<div className="product-card">
+																<div className="product-card-image">
+																	<img
+																		src="./assets/images/img-recommendation-02.jpg"
+																		alt="추천 상품 01"
+																	/>
+																</div>
+																<strong className="product-card-brand">
+																	플러스마이너스제로{' '}
+																</strong>
+																<h2 className="product-card-title">
+																	원적외선 2단 히터 XHS-Y010
+																</h2>
+																<div className="product-card-price">
+																	<span className="rate">10</span>
+																	<span className="percent">%</span>
+																	<strong className="amount">88,200</strong>
+																</div>
+																<div className="product-card-summary">
+																	<div className="star-rating">
+																		<i className="ic-star is-active"></i>
+																	</div>
+																	<strong aria-label="평점 4.5점">4.5</strong>
+																	<span>리뷰 28</span>
+																</div>
+																<div className="tag-gray sm-only">무료배송</div>
+															</div>
+														</a>
+													</li>
+													<li className="product-item">
+														<a href="/">
+															<div className="product-card">
+																<div className="product-card-image">
+																	<img
+																		src="./assets/images/img-recommendation-03.jpg"
+																		alt="추천 상품 01"
+																	/>
+																</div>
+																<strong className="product-card-brand">
+																	플러스마이너스제로{' '}
+																</strong>
+																<h2 className="product-card-title">
+																	리플렉트 에코히터 4colors{' '}
+																</h2>
+																<div className="product-card-price">
+																	<span className="rate">23</span>
+																	<span className="percent">%</span>
+																	<strong className="amount">129,000</strong>
+																</div>
+																<div className="product-card-summary">
+																	<div className="star-rating">
+																		<i className="ic-star is-active"></i>
+																	</div>
+																	<strong aria-label="평점 4.6점">4.6</strong>
+																	<span>리뷰 605</span>
+																</div>
+																<div className="tag-gray sm-only">무료배송</div>
+															</div>
+														</a>
+													</li>
+													<li className="product-item">
+														<a href="/">
+															<div className="product-card">
+																<div className="product-card-image">
+																	<img
+																		src="./assets/images/img-recommendation-04.jpg"
+																		alt="추천 상품 01"
+																	/>
+																</div>
+																<strong className="product-card-brand">
+																	코시나
+																</strong>
+																<h2 className="product-card-title">
+																	오방난로 히터 6종 모음전
+																</h2>
+																<div className="product-card-price">
+																	<span className="rate">52</span>
+																	<span className="percent">%</span>
+																	<strong className="amount">56,900</strong>
+																</div>
+																<div className="product-card-summary">
+																	<div className="star-rating">
+																		<i className="ic-star is-active"></i>
+																	</div>
+																	<strong aria-label="평점 4.6점">4.6</strong>
+																	<span>리뷰 250</span>
+																</div>
+																<div className="tag-gray sm-only">무료배송</div>
+															</div>
+														</a>
+													</li>
+												</ol>
+											</div>
+										</div>
+									);
+								}}
+							</InView>
 							<div
 								className="product-section-divider sm-only"
 								aria-hidden
