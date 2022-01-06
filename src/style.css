@@ -782,12 +782,16 @@ address {
       max-height: 0;
       overflow: hidden;
       transition: max-height 200ms ease-in-out; }
+      .sidebar .sidebar-nav .sidebar-category-list .sidebar-category-item:last-child {
+        transition: padding-bottom 200ms ease-in-out; }
     .sidebar .sidebar-nav .sidebar-category.is-open.is-community .sidebar-category-list {
-      max-height: 108px; }
+      max-height: 128px; }
     .sidebar .sidebar-nav .sidebar-category.is-open.is-store .sidebar-category-list {
-      max-height: 324px; }
+      max-height: 344px; }
     .sidebar .sidebar-nav .sidebar-category.is-open.is-expert .sidebar-category-list {
-      max-height: 108px; }
+      max-height: 128px; }
+    .sidebar .sidebar-nav .sidebar-category.is-open .sidebar-category-item:last-child {
+      padding-bottom: 20px; }
     .sidebar .sidebar-nav .sidebar-category.is-open .sidebar-category-header .ic-chevron {
       transform: rotate(-180deg) translateY(50%); }
     .sidebar .sidebar-nav .sidebar-category-item a {

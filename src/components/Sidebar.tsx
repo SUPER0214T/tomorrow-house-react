@@ -1,9 +1,25 @@
-import React from 'react';
-import { useRecoilState } from 'recoil';
+import React, { useLayoutEffect } from 'react';
+import { useRecoilValue } from 'recoil';
 import { gnbMenuAtom } from '../atoms';
 
 function Sidebar() {
-	const [gnbMenuState, setGnbMenuState] = useRecoilState(gnbMenuAtom);
+	const gnbMenuState = useRecoilValue(gnbMenuAtom);
+
+	useLayoutEffect(() => {
+		const sidebarCategorys = document.querySelectorAll('.sidebar-category');
+		sidebarCategorys.forEach((el) => {
+			el.addEventListener('click', () => {
+				sidebarCategorys.forEach((category) => {
+					if (category === el) {
+						category.classList.toggle('is-active');
+						category.classList.toggle('is-open');
+					} else {
+						category.classList.remove('is-active', 'is-open');
+					}
+				});
+			});
+		});
+	}, []);
 
 	return (
 		<>

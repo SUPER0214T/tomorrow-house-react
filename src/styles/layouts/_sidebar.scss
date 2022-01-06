@@ -99,11 +99,15 @@
 					}
 				}
 			}
-			
+
 			&-list {
 				max-height: 0;
 				overflow: hidden;
 				transition: max-height 200ms ease-in-out;
+
+				.sidebar-category-item:last-child {
+					transition: padding-bottom 200ms ease-in-out;
+				}
 			}
 
 			// sidebar의 list 안의 item크기 계산 -> JS에서도 구현해봐야 함
@@ -120,20 +124,23 @@
 			&.is-open {
 				&.is-community {
 					.sidebar-category-list {
-						max-height: returnAllItemHeight($community-list-item)
+						max-height: returnAllItemHeight($community-list-item) + 20px;
 					}
 				}
 
 				&.is-store {
 					.sidebar-category-list {
-						max-height: returnAllItemHeight($store-list-item)
+						max-height: returnAllItemHeight($store-list-item) + 20px;
 					}
 				}
 
 				&.is-expert {
 					.sidebar-category-list {
-						max-height: returnAllItemHeight($expert-list-item)
+						max-height: returnAllItemHeight($expert-list-item) + 20px;
 					}
+				}
+				.sidebar-category-item:last-child {
+					padding-bottom: 20px;
 				}
 
 				.sidebar-category-header .ic-chevron {
