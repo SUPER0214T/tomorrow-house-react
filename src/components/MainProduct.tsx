@@ -10,6 +10,7 @@ import {
 import MobileUserGallery from './MobileUserGallery';
 import ProductSlider from './ProductSlider';
 import TabletUserGallery from './TabletUserGallery';
+import { Helmet } from 'react-helmet';
 
 function MainProduct() {
 	const [productSpecState, setProductSpecState] =
@@ -112,6 +113,12 @@ function MainProduct() {
 
 	return (
 		<>
+			<Helmet>
+				<title>
+					일반청소기 &#62; [스페셜오딜] [한정수량] 24시간초특가! 아이닉
+					로봇/무선청소기 BEST 모음전 | 예쁜템들 모여사는 오늘의집 스토어
+				</title>
+			</Helmet>
 			{/* <!-- main-product --> */}
 			<div className="product-show">
 				<div className="product-info-wrapper">
