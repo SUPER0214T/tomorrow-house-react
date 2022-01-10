@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/tomorrow-house-react%20/static/css/main.fef4dfa7.chunk.css",
-    "main.js": "/tomorrow-house-react%20/static/js/main.5ac2c94e.chunk.js",
-    "main.js.map": "/tomorrow-house-react%20/static/js/main.5ac2c94e.chunk.js.map",
-    "runtime-main.js": "/tomorrow-house-react%20/static/js/runtime-main.201c95fc.js",
-    "runtime-main.js.map": "/tomorrow-house-react%20/static/js/runtime-main.201c95fc.js.map",
-    "static/css/2.4e6ad73b.chunk.css": "/tomorrow-house-react%20/static/css/2.4e6ad73b.chunk.css",
-    "static/js/2.978f68f3.chunk.js": "/tomorrow-house-react%20/static/js/2.978f68f3.chunk.js",
-    "static/js/2.978f68f3.chunk.js.map": "/tomorrow-house-react%20/static/js/2.978f68f3.chunk.js.map",
-    "index.html": "/tomorrow-house-react%20/index.html",
-    "static/css/2.4e6ad73b.chunk.css.map": "/tomorrow-house-react%20/static/css/2.4e6ad73b.chunk.css.map",
-    "static/css/main.fef4dfa7.chunk.css.map": "/tomorrow-house-react%20/static/css/main.fef4dfa7.chunk.css.map",
-    "static/js/2.978f68f3.chunk.js.LICENSE.txt": "/tomorrow-house-react%20/static/js/2.978f68f3.chunk.js.LICENSE.txt",
-    "static/media/style.css": "/tomorrow-house-react%20/static/media/tomorrow.f8ef7b88.woff"
+    "main.css": "/tomorrow-house-react/static/css/main.fc1d5c2a.chunk.css",
+    "main.js": "/tomorrow-house-react/static/js/main.5ac2c94e.chunk.js",
+    "main.js.map": "/tomorrow-house-react/static/js/main.5ac2c94e.chunk.js.map",
+    "runtime-main.js": "/tomorrow-house-react/static/js/runtime-main.c7b92f95.js",
+    "runtime-main.js.map": "/tomorrow-house-react/static/js/runtime-main.c7b92f95.js.map",
+    "static/css/2.4e6ad73b.chunk.css": "/tomorrow-house-react/static/css/2.4e6ad73b.chunk.css",
+    "static/js/2.978f68f3.chunk.js": "/tomorrow-house-react/static/js/2.978f68f3.chunk.js",
+    "static/js/2.978f68f3.chunk.js.map": "/tomorrow-house-react/static/js/2.978f68f3.chunk.js.map",
+    "index.html": "/tomorrow-house-react/index.html",
+    "static/css/2.4e6ad73b.chunk.css.map": "/tomorrow-house-react/static/css/2.4e6ad73b.chunk.css.map",
+    "static/css/main.fc1d5c2a.chunk.css.map": "/tomorrow-house-react/static/css/main.fc1d5c2a.chunk.css.map",
+    "static/js/2.978f68f3.chunk.js.LICENSE.txt": "/tomorrow-house-react/static/js/2.978f68f3.chunk.js.LICENSE.txt",
+    "static/media/style.css": "/tomorrow-house-react/static/media/tomorrow.f8ef7b88.woff"
   },
   "entrypoints": [
-    "static/js/runtime-main.201c95fc.js",
+    "static/js/runtime-main.c7b92f95.js",
     "static/css/2.4e6ad73b.chunk.css",
     "static/js/2.978f68f3.chunk.js",
-    "static/css/main.fef4dfa7.chunk.css",
+    "static/css/main.fc1d5c2a.chunk.css",
     "static/js/main.5ac2c94e.chunk.js"
   ]
 }
