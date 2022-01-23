@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/tomorrow-house-react/static/css/main.2302b012.chunk.css",
-    "main.js": "/tomorrow-house-react/static/js/main.04e6b581.chunk.js",
-    "main.js.map": "/tomorrow-house-react/static/js/main.04e6b581.chunk.js.map",
+    "main.js": "/tomorrow-house-react/static/js/main.9168726e.chunk.js",
+    "main.js.map": "/tomorrow-house-react/static/js/main.9168726e.chunk.js.map",
     "runtime-main.js": "/tomorrow-house-react/static/js/runtime-main.c7b92f95.js",
     "runtime-main.js.map": "/tomorrow-house-react/static/js/runtime-main.c7b92f95.js.map",
     "static/css/2.4e6ad73b.chunk.css": "/tomorrow-house-react/static/css/2.4e6ad73b.chunk.css",
@@ -19,6 +19,6 @@
     "static/css/2.4e6ad73b.chunk.css",
     "static/js/2.e1bd894e.chunk.js",
     "static/css/main.2302b012.chunk.css",
-    "static/js/main.04e6b581.chunk.js"
+    "static/js/main.9168726e.chunk.js"
   ]
 }
